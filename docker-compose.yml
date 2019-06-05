@@ -1,0 +1,73 @@
+version: '3.2'
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/24
+
+services:
+  dns:
+    image: coredns/coredns:1.2.0
+    command: -conf /etc/coredns/Corefile
+    container_name: dns
+    networks:
+      default:
+        ipv4_address: 172.19.0.2
+        aliases: [ns1.localhost]
+    ports:
+      - "5300:53/udp"
+    volumes:
+      - ./docker/dns:/etc/coredns
+
+  locator:
+    image: apachegeode/geode
+    container_name: locator
+    hostname: locator.localhost
+    depends_on: [dns]
+    dns: [172.19.0.2]
+    networks:
+      default:
+        aliases: [locator.localhost]
+    expose:
+      - "10334"
+      - "1099"
+      - "7575"
+    ports:
+      - "1099:1099"
+      - "10334:10334"
+      - "7575:7575"
+      - "7070:7070"
+    volumes:
+      - ./docker/:/docker/
+    command: /docker/geode/gfshWrapper.sh gfsh start locator --name=locator.localhost --mcast-port=0
+
+  server:
+    image: apachegeode/geode
+    container_name: server
+    hostname: server.localhost
+    depends_on: [dns, locator]
+    dns: [172.19.0.2]
+    networks:
+      default:
+        aliases: [server.localhost]
+    links:
+      - locator:locator
+    expose:
+      - "8080"
+      - "40404"
+      - "1099"
+    ports:
+      - "40404:40404"
+      - "7071:7070"
+    volumes:
+      - ./docker/:/docker/
+    command: /docker/geode/startServer.sh --server-port=40404 --max-heap=1G
+
+  geode-config:
+    image: alpine
+    depends_on: [dns, server, locator]
+    container_name: geode-config
+    volumes:
+      - ./docker:/docker
+    command: docker/geode/setup.sh

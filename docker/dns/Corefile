@@ -1,0 +1,19 @@
+.:53 {
+    reload 2s 1s
+
+    # CNAME *.localstack to localstack
+    template ANY A localhost {
+        match ".*\.(?P<zone>localstack(\.hadoop)?\.localhost)"
+        answer "{{ .Name }} 60 IN CNAME {{ .Group.zone }}"
+        upstream /etc/resolv.conf # Not sure why necessary
+        fallthrough
+    }
+
+    hosts /etc/coredns/hosts {
+        fallthrough
+    }
+
+    forward . /etc/resolv.conf { }
+
+    # log
+}
