@@ -34,3 +34,24 @@ List members:
 gfsh> list members
 ```
 
+### Local k8s with Minikube
+
+> If you've never installed minikube before, go to the [Kubernetes docs for instructions on installing Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/). Note that you'll need to install a hypervisor and `kubectl`, the Kubernetes command line tool. 
+
+> If on a mac, you can install the `hyperkit` hypervisor with `brew install hyperkit`. Then, to get the most recent version of minikube's fork of the hyperkit driver: `curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \&& sudo install -o root -g wheel -m 4755 docker-machine-driver-hyperkit /usr/local/bin/`
+
+Start minikube:
+```bash
+$ minikube start --cpus 4 --memory 6096 --vm-driver=hyperkit
+```
+
+> On starting minikube, your kubectl context should be set to `minikube`. You can verify this by running `$ kubectl config current-context`.
+
+#### Geode
+To start up Geode:
+
+```bash
+$ kubectl apply -f k8s/geode
+$ kubectl get all,pv,pvc -o wide
+```
+
