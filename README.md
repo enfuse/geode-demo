@@ -34,6 +34,12 @@ List members:
 gfsh> list members
 ```
 
+#### MongoDB
+
+You can interact with the MongoDB via the MongoExpress UI at http://localhost:8081 or connect directly to Mongo via http://localhost:27017. 
+For more advanced search query capability, I'd recommend using Robo 3T, which you can install with `$ brew cask install robo-3t`, then connect to localhost:27017.
+
+
 ### Local k8s with Minikube
 
 > If you've never installed minikube before, go to the [Kubernetes docs for instructions on installing Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/). Note that you'll need to install a hypervisor and `kubectl`, the Kubernetes command line tool. 

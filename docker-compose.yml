@@ -54,7 +54,6 @@ services:
     links:
       - locator:locator
     expose:
-      - "8080"
       - "40404"
       - "1099"
     ports:
@@ -71,3 +70,25 @@ services:
     volumes:
       - ./docker:/docker
     command: docker/geode/setup.sh
+
+  mongo:
+    image: mongo
+    depends_on: [dns]
+    restart: always
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    depends_on: [dns]
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
