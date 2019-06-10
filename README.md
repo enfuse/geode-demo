@@ -36,8 +36,7 @@ gfsh> list members
 
 #### MongoDB
 
-You can interact with the MongoDB via the MongoExpress UI at http://localhost:8081 or connect directly to Mongo via http://localhost:27017. 
-For more advanced search query capability, I'd recommend using Robo 3T, which you can install with `$ brew cask install robo-3t`, then connect to localhost:27017.
+You can interact with the MongoDB via localhost:27017. Because MongoDB does not offer an http interface, I'd recommend using Robo 3T, which you can install with `$ brew cask install robo-3t`, then connect to localhost:27017.
 
 
 ### Local k8s with Minikube

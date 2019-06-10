@@ -1,31 +1,15 @@
 version: '3.2'
-networks:
-  default:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.19.0.0/24
 
 services:
-  dns:
-    image: coredns/coredns:1.2.0
-    command: -conf /etc/coredns/Corefile
-    container_name: dns
-    networks:
-      default:
-        ipv4_address: 172.19.0.2
-        aliases: [ns1.localhost]
-    ports:
-      - "5300:53/udp"
-    volumes:
-      - ./docker/dns:/etc/coredns
+
+  # *********** #
+  #    Geode    #
+  # *********** #
 
   locator:
     image: apachegeode/geode
     container_name: locator
     hostname: locator.localhost
-    depends_on: [dns]
-    dns: [172.19.0.2]
     networks:
       default:
         aliases: [locator.localhost]
@@ -44,10 +28,9 @@ services:
 
   server:
     image: apachegeode/geode
+    depends_on: [locator]
     container_name: server
     hostname: server.localhost
-    depends_on: [dns, locator]
-    dns: [172.19.0.2]
     networks:
       default:
         aliases: [server.localhost]
@@ -65,30 +48,66 @@ services:
 
   geode-config:
     image: alpine
-    depends_on: [dns, server, locator]
+    depends_on: [server, locator]
     container_name: geode-config
     volumes:
       - ./docker:/docker
     command: docker/geode/setup.sh
 
-  mongo:
-    image: mongo
-    depends_on: [dns]
-    restart: always
-    expose:
-      - "27017"
+  # ************************* #
+  #    MongoDB Replica Set    #
+  # ************************* #
+  mongodb-primary:
+    image: mongo:4.0
+    container_name: mongodb-primary
+    hostname: mongodb-primary
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
-  mongo-express:
-    image: mongo-express
-    depends_on: [dns]
     restart: always
-    ports:
-      - "8081:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_NAME=rs0
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+
+  mongodb-secondary:
+    image: mongo:4.0
+    container_name: mongodb-secondary
+    hostname: mongodb-secondary
+    depends_on:
+      - mongodb-primary
+    ports:
+      - "27018:27017"
+    restart: always
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_PRIMARY_HOST=mongodb-primary
+      - MONGODB_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_REPLICA_SET_NAME=rs0
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+
+  mongodb-arbiter:
+    image: mongo:4.0
+    container_name: mongodb-arbiter
+    hostname: mongodb-arbiter
+    depends_on:
+      - mongodb-primary
+    ports:
+      - "27019:27017"
+    restart: always
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
+      - MONGODB_REPLICA_SET_MODE=arbiter
+      - MONGODB_PRIMARY_HOST=mongodb-primary
+      - MONGODB_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_REPLICA_SET_NAME=rs0
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+
+  mongodb-setup:
+    image: mongo:4.0
+    container_name: mongodb-setup
+    depends_on: ["mongodb-primary", "mongodb-secondary", "mongodb-arbiter"]
+    volumes:
+      - ./docker/mongodb-replicaset:/scripts
+    entrypoint: [ "/scripts/setup.sh" ]
