@@ -59,6 +59,15 @@ You can interact with the MongoDB via localhost:27017.
 
 Because MongoDB does not offer an http interface, I'd recommend using Robo 3T, which you can install with `$ brew cask install robo-3t`, then connect to localhost:27017.
 
+#### Kafka and Zookeeper
+
+To read from a Kafka topic
+
+```bash
+$ kubectl exec -c cp-kafka-broker -it {KAFKA_BROKER_POD_NAME} -- /bin/bash  /usr/bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic {TOPIC_NAME} --from-beginning
+```
+
+or use Control Center at `localhost:9021`
 
 ## Local k8s with Minikube
 
@@ -102,4 +111,10 @@ or without Helm:
 ```bash
 $ kubectl apply -f k8s/mongodb-replicaset
 $ kubectl get all,pv,pvc -o wide
+```
+
+#### Confluent Kafka & Zookeeper
+```bash
+$ helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+$ helm install confluentinc/cp-helm-charts --name confluent --set cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false,cp-zookeeper.servers=1
 ```
