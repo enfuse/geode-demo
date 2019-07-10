@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'com.google.cloud:google-cloud-storage:1.82.0'
+    compile 'org.apache.kafka:kafka-clients:2.3.0'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
