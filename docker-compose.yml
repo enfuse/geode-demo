@@ -165,3 +165,44 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+
+  scdf:
+    image: springcloud/spring-cloud-dataflow-server-local:1.7.0.RELEASE
+    hostname: scdf.local
+    container_name: scdf
+    depends_on: [postgres, config-server]
+    ports:
+      - "9393:9393"
+      - "9995-9998:9995-9998"
+    volumes:
+      - ~/.m2:/root/.m2
+    environment:
+      - spring.cloud.deployer.local.javaOpts=-Dspring.profiles.active=docker
+      - spring.cloud.dataflow.applicationProperties.stream.spring.profiles.include=docker
+
+      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka.localhost:9092
+      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=kafka.localhost:2181
+
+      #- spring.datasource.url=jdbc:postgresql://db1.localhost:5432/scdf
+      #- spring.datasource.username=scdf
+      #- spring.datasource.password=scdf
+      #- spring.datasource.driver-class-name=org.postgresql.Driver
+
+  scdf-config:
+    image: alpine
+    depends_on: [scdf]
+    volumes:
+      - ./docker:/docker
+    command: docker/scdf/setup.sh
+
+  config-server:
+    image: hyness/spring-cloud-config-server
+    hostname: config-server.local
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./cloud-config:/config
+    environment:
+      - SPRING_PROFILES_ACTIVE=native
+      - SPRING_CLOUD_CONFIG_SERVER_NATIVE_ADDLABELLOCATIONS=false
