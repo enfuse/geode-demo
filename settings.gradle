@@ -1,3 +1,4 @@
-rootProject.name = 'demo'
-include 'gcs-to-kafka'
+rootProject.name = 'scdf-geode-kafka-demo'
+include 'SCDF:source'
+include 'SCDF:transform'
 
