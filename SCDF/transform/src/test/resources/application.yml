@@ -4,13 +4,13 @@ spring:
     name: transform
   cloud:
     stream:
-      schemaRegistryClient:
-        endpoint: http://localhost:9081
-      default:
-        contentType: application/*+avro
-      bindings:
-        account-created:
-          destination: account-created
+    #  schemaRegistryClient:
+    #    endpoint: http://localhost:9081
+    #  default:
+    #    contentType: application/*+avro
+    #  bindings:
+    #    account-created:
+    #      destination: account-created
       kafka.binder:
         brokers: localhost:9092
-      schema.avro.schemaLocations: classpath*:avro/transmission-v1.json
+    #  schema.avro.schemaLocations: classpath*:avro/transmission-v1.json

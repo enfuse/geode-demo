@@ -27,14 +27,19 @@ public class TransformApplicationListenerIntegrationTest {
   private MessageCollector messageCollector;
 
   @Test
-  public void handle_givenJsonString_outputsUpperCaseValues() {
+  public void handle_givenJson_extractsAndOutputsExpectedValues() {
     processor.input().send(new GenericMessage<>(getTestJson().toString()));
 
     GenericMessage<String> result = (GenericMessage<String>) messageCollector.forChannel(processor.output()).poll();
     JSONObject resultJsonObject = createJsonObject(Objects.requireNonNull(result));
 
-    assertThat(resultJsonObject.get("COM_CompanyName")).isEqualTo("Ceva Logistics - East Liberty");
-    assertThat(resultJsonObject.get("MSG_SequenceNumber")).isEqualTo(240111636);
+  //  assertThat(resultJsonObject.get("COM_CompanyName")).isEqualTo("Ceva Logistics - East Liberty");
+  //  assertThat(resultJsonObject.get("MSG_SequenceNumber")).isEqualTo(240111636);
+    assertThat(resultJsonObject.get("vehicleId").toString().equals("34464198"));
+    assertThat(resultJsonObject.get("latitude").toString().equals("40.110761"));
+    assertThat(resultJsonObject.get("longitude").toString().equals("-83.278189"));
+    assertThat(resultJsonObject.get("speed").toString().equals("36"));
+
   }
 
   private JSONObject getTestJson(){

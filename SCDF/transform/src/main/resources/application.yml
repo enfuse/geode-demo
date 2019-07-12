@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: transform
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: scdf-geode-kafka-demo.http
+        output:
+          destination: scdf-geode-kafka-demo.transform

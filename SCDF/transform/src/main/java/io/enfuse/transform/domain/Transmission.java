@@ -85,4 +85,14 @@ public class Transmission {
       return new Transmission(this);
     }
   }
+
+  @Override
+  public String toString() {
+    return "Transmission{" +
+        "vehicleId='" + vehicleId + '\'' +
+        ", latitude='" + latitude + '\'' +
+        ", longitude='" + longitude + '\'' +
+        ", speed='" + speed + '\'' +
+        '}';
+  }
 }

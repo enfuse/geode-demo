@@ -1,9 +1,6 @@
-#!/usr/bin/env sh
-while ! nc -zw2 localhost 9393 &>/dev/null; do
+while ! nc -zw2 dataflow.localhost 9393 &>/dev/null; do
     true
 done
-
-apk add --no-cache curl
 
 #curl -Ss http://dataflow.localhost:9393/apps/task/tax-batch-deployer \
 #  -d 'uri=maven://com.corelogic.idap.pipeline:tax-batch-deployer:0.0.1-SNAPSHOT'
