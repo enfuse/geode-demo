@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "io.enfuse",
+  "namespace": "io.enfuse.transform.domain",
   "name": "Transmission",
   "version": "1",
   "fields": [

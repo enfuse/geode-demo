@@ -33,16 +33,13 @@ public class TransformApplicationListener {
 
   @StreamListener(Processor.INPUT)
   @SendTo(Processor.OUTPUT)
-  public Transmission handle(GenericMessage<String> incomingMessage){
+  public Message<GenericRecord> handle(GenericMessage<String> incomingMessage){
     JSONObject jsonPayload = new JSONObject(incomingMessage.getPayload());
-    jsonPayload.put("modifiedObject", "transform");
     logger.info("incoming payload " + jsonPayload.toString());
-    GenericMessage<String> newMessage = new GenericMessage<>(jsonPayload.toString());
     Transmission transmission = new Transmission.Builder().withVehicleId(jsonPayload.get("VEH_VehicleId").toString()).withLatitude(jsonPayload.get("LOC_Latitude").toString()).withLongitude(jsonPayload.get("LOC_Longitude").toString()).withSpeed(jsonPayload.get("LOC_Speed").toString()).build();
     GenericRecord record = MessageUtils.convertToAvro(transmission);
-    message(record);
     logger.info("publishing to kafka " + transmission.toString());
-    return transmission;
+    return message(record);
 
   }
 
