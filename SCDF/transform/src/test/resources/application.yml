@@ -1,16 +1,49 @@
-
 spring:
   application:
     name: transform
+
   cloud:
     stream:
-    #  schemaRegistryClient:
-    #    endpoint: http://localhost:9081
-    #  default:
-    #    contentType: application/*+avro
-    #  bindings:
-    #    account-created:
-    #      destination: account-created
-      kafka.binder:
-        brokers: localhost:9092
-    #  schema.avro.schemaLocations: classpath*:avro/transmission-v1.json
+      bindings:
+        input:
+          destination: scdf-geode-kafka-demo.http
+        commonConsumerOutput:
+          producer:
+            useNativeEncoding: true
+            headerMode: raw
+            value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
+
+        output:
+          destination: scdf-geode-kafka-demo.transform
+          contentType: application/*+avro
+          producer:
+            useNativeEncoding: true
+            headerMode: raw
+
+      schemaRegistryClient:
+        endpoint: http://localhost:8081
+
+
+      kafka:
+        bindings:
+          commonConsumerOutput:
+            producer:
+              configuration:
+                schema.registry.url: http://localhost:8081
+          output:
+            producer:
+              configuration:
+                schema.registry.url:  http://localhost:8081
+            consumer:
+              configuration:
+                schema.registry.url:  http://localhost:8081
+
+
+        binder:
+          brokers: http://localhost:9092
+
+  kafka:
+    consumer:
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer

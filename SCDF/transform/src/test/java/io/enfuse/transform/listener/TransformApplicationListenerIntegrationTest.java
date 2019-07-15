@@ -1,5 +1,6 @@
 package io.enfuse.transform.listener;
 
+import org.apache.avro.generic.GenericRecord;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,8 +32,8 @@ public class TransformApplicationListenerIntegrationTest {
   public void handle_givenJson_extractsAndOutputsExpectedValues() {
     processor.input().send(new GenericMessage<>(getTestJson().toString()));
 
-    GenericMessage<String> result = (GenericMessage<String>) messageCollector.forChannel(processor.output()).poll();
-    JSONObject resultJsonObject = createJsonObject(Objects.requireNonNull(result));
+    Message<GenericRecord> result = (GenericMessage<GenericRecord>) messageCollector.forChannel(processor.output()).poll();
+    JSONObject resultJsonObject = createJsonObject(result.getPayload().toString());
 
   //  assertThat(resultJsonObject.get("COM_CompanyName")).isEqualTo("Ceva Logistics - East Liberty");
   //  assertThat(resultJsonObject.get("MSG_SequenceNumber")).isEqualTo(240111636);
@@ -96,7 +98,7 @@ public class TransformApplicationListenerIntegrationTest {
     return jsonObject;
   }
 
-  private JSONObject createJsonObject(GenericMessage<String> message) {
-    return new JSONObject(message.getPayload());
+  private JSONObject createJsonObject(String message) {
+    return new JSONObject(message);
   }
 }
