@@ -1,50 +1,50 @@
 version: '3'
 
 services:
-  locator:
-    image: apachegeode/geode
-    container_name: locator
-    hostname: locator.localhost
-
-    expose:
-      - "10334"
-      - "1099"
-      - "7575"
-    #  - "1024"
-    ports:
-      - "1099:1099"
-      - "10334:10334"
-      - "7575:7575"
-      - "7070:7070"
-    volumes:
-      - ./docker/:/docker/
-    command: /docker/geode/gfshWrapper.sh gfsh start locator --name=locator.localhost --mcast-port=0
-
-  server:
-    image: apachegeode/geode
-    container_name: server
-    hostname: server.localhost
-    depends_on: [locator]
-    links:
-      - locator:locator
-    expose:
-      - "8080"
-      - "40404"
-      - "1099"
-    ports:
-      - "40404:40404"
-      - "7071:7070"
-    volumes:
-      - ./docker/:/docker/
-    command: /docker/geode/startServer.sh --server-port=40404 --max-heap=1G
-
-  geode-config:
-    image: alpine
-    depends_on: [server, locator]
-    container_name: geode-config
-    volumes:
-      - ./docker:/docker
-    command: docker/geode/setup.sh
+#  locator:
+#    image: apachegeode/geode
+#    container_name: locator
+#    hostname: locator.localhost
+#
+#    expose:
+#      - "10334"
+#      - "1099"
+#      - "7575"
+#    #  - "1024"
+#    ports:
+#      - "1099:1099"
+#      - "10334:10334"
+#      - "7575:7575"
+#      - "7070:7070"
+#    volumes:
+#      - ./docker/:/docker/
+#    command: /docker/geode/gfshWrapper.sh gfsh start locator --name=locator.localhost --mcast-port=0
+#
+#  server:
+#    image: apachegeode/geode
+#    container_name: server
+#    hostname: server.localhost
+#    depends_on: [locator]
+#    links:
+#      - locator:locator
+#    expose:
+#      - "8080"
+#      - "40404"
+#      - "1099"
+#    ports:
+#      - "40404:40404"
+#      - "7071:7070"
+#    volumes:
+#      - ./docker/:/docker/
+#    command: /docker/geode/startServer.sh --server-port=40404 --max-heap=1G
+#
+#  geode-config:
+#    image: alpine
+#    depends_on: [server, locator]
+#    container_name: geode-config
+#    volumes:
+#      - ./docker:/docker
+#    command: docker/geode/setup.sh
 
   mysql:
     image: mysql:5.7.25
@@ -69,7 +69,7 @@ services:
       - "8081:8081"
 
   dataflow-server:
-    image: springcloud/spring-cloud-dataflow-server:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set!}
+    image: springcloud/spring-cloud-dataflow-server:2.1.2.RELEASE
     container_name: dataflow-server
     ports:
       - "9393:9393"
@@ -106,7 +106,7 @@ services:
         echo 'Task apps imported'"
 
   skipper-server:
-    image: springcloud/spring-cloud-skipper-server:${SKIPPER_VERSION:?SKIPPER_VERSION is not set!}
+    image: springcloud/spring-cloud-skipper-server:2.0.3.RELEASE
     container_name: skipper
     ports:
       - "7577:7577"
@@ -124,42 +124,42 @@ services:
 
   # Grafana is configured with the Prometheus datasource.
   # Use `docker exec -it prometheus /bin/sh` to logging in the container
-  prometheus:
-    image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=local-server-image-tag'}
-    container_name: 'prometheus'
-    volumes:
-      - 'scdf-targets:/etc/prometheus/'
-    ports:
-      - '9090:9090'
-    depends_on:
-      - service-discovery
-
-  # The service-discovery container. Required for Prometheus setup only
-  # Use `docker exec -it service-discovery /bin/sh` to logging the container
-  service-discovery:
-    image: springcloud/spring-cloud-dataflow-prometheus-service-discovery:0.0.4.RELEASE
-    container_name: 'service-discovery'
-    volumes:
-      - 'scdf-targets:/tmp/scdf-targets/'
-    expose:
-      - '8181'
-    ports:
-      - '8181:8181'
-    environment:
-      - metrics.prometheus.target.cron=0/20 * * * * *
-      - metrics.prometheus.target.filePath=/tmp/scdf-targets/targets.json
-      - metrics.prometheus.target.discoveryUrl=http://dataflow-server:9393/runtime/apps
-      - metrics.prometheus.target.overrideIp=skipper-server
-      - server.port=8181
-    depends_on:
-      - dataflow-server
-
-  # Grafana SCDF Prometheus pre-built image:
-  grafana:
-    image: springcloud/spring-cloud-dataflow-grafana-prometheus:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=local-server-image-tag'}
-    container_name: 'grafana'
-    ports:
-      - '3000:3000'
+#  prometheus:
+#    image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=local-server-image-tag'}
+#    container_name: 'prometheus'
+#    volumes:
+#      - 'scdf-targets:/etc/prometheus/'
+#    ports:
+#      - '9090:9090'
+#    depends_on:
+#      - service-discovery
+#
+#  # The service-discovery container. Required for Prometheus setup only
+#  # Use `docker exec -it service-discovery /bin/sh` to logging the container
+#  service-discovery:
+#    image: springcloud/spring-cloud-dataflow-prometheus-service-discovery:0.0.4.RELEASE
+#    container_name: 'service-discovery'
+#    volumes:
+#      - 'scdf-targets:/tmp/scdf-targets/'
+#    expose:
+#      - '8181'
+#    ports:
+#      - '8181:8181'
+#    environment:
+#      - metrics.prometheus.target.cron=0/20 * * * * *
+#      - metrics.prometheus.target.filePath=/tmp/scdf-targets/targets.json
+#      - metrics.prometheus.target.discoveryUrl=http://dataflow-server:9393/runtime/apps
+#      - metrics.prometheus.target.overrideIp=skipper-server
+#      - server.port=8181
+#    depends_on:
+#      - dataflow-server
+#
+#  # Grafana SCDF Prometheus pre-built image:
+#  grafana:
+#    image: springcloud/spring-cloud-dataflow-grafana-prometheus:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=local-server-image-tag'}
+#    container_name: 'grafana'
+#    ports:
+#      - '3000:3000'
 
 volumes:
   scdf-targets:
