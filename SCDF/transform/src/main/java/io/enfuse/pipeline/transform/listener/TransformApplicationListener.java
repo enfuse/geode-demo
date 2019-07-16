@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.support.GenericMessage;
@@ -17,9 +16,8 @@ public class TransformApplicationListener {
   private Processor processor;
 
   @Autowired
-  public TransformApplicationListener(Processor processor){
+  public TransformApplicationListener(Processor processor) {
     this.processor = processor;
-
   }
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
