@@ -1,4 +1,5 @@
-import io.enfuse.transform.TransformApplication;
+package io.enfuse.pipeline.transform;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,4 @@
-(cd SCDF/source
-./gradlew clean build install)
-
-(cd SCDF/transform
-./gradlew clean build install)
+q#!/usr/bin/env bash
 
 
 ./tools/destroy-stream.sh

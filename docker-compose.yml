@@ -89,21 +89,23 @@ services:
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.mariadb.jdbc.Driver
     depends_on:
       - kafka
+    volumes:
+      - '~/.m2:/root/.m2'
 
-  app-import:
-    image: springcloud/openjdk:latest
-    depends_on:
-      - dataflow-server
-    command: >
-      /bin/sh -c "
-        while ! nc -z dataflow-server 9393;
-        do
-          sleep 1;
-        done;
-        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Einstein-SR2-stream-applications-kafka-maven&force=true';
-        echo 'Stream apps imported'
-        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Dearborn-SR1-task-applications-maven&force=true';
-        echo 'Task apps imported'"
+#  app-import:
+#    image: springcloud/openjdk:latest
+#    depends_on:
+#      - dataflow-server
+#    command: >
+#      /bin/sh -c "
+#        while ! nc -z dataflow-server 9393;
+#        do
+#          sleep 1;
+#        done;
+#        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Einstein-SR2-stream-applications-kafka-maven&force=true';
+#        echo 'Stream apps imported'
+#        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Dearborn-SR1-task-applications-maven&force=true';
+#        echo 'Task apps imported'"
 
   skipper-server:
     image: springcloud/spring-cloud-skipper-server:2.0.3.RELEASE
@@ -111,8 +113,6 @@ services:
     ports:
       - "7577:7577"
       - "9000-9010:9000-9010"
-      - "9997:9997"
-      - "9998:9998"
       - "20000-20105:20000-20105"
     environment:
       - SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_LOCAL_ACCOUNTS_DEFAULT_PORTRANGE_LOW=20000
@@ -121,7 +121,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=rootpw
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.mariadb.jdbc.Driver
-
+    volumes:
+      - '~/.m2:/root/.m2'
   # Grafana is configured with the Prometheus datasource.
   # Use `docker exec -it prometheus /bin/sh` to logging in the container
 #  prometheus:

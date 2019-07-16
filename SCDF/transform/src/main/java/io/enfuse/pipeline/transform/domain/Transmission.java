@@ -1,4 +1,4 @@
-package io.enfuse.transform.domain;
+package io.enfuse.pipeline.transform.domain;
 
 //  truck’s identifier and its lat and long.
 public class Transmission {

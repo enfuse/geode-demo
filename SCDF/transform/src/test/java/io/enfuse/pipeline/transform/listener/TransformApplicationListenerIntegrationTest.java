@@ -1,9 +1,8 @@
-package io.enfuse.transform.listener;
+package io.enfuse.pipeline.transform.listener;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Objects;
-import org.apache.avro.generic.GenericRecord;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,9 +25,9 @@ public class TransformApplicationListenerIntegrationTest {
   public void handle_givenJson_extractsAndOutputsExpectedValues() {
     processor.input().send(new GenericMessage<>(getTestJson().toString()));
 
-    Message<GenericRecord> result =
-        (GenericMessage<GenericRecord>) messageCollector.forChannel(processor.output()).poll();
-    GenericRecord resultValue = Objects.requireNonNull(result).getPayload();
+    GenericMessage<String> result =
+        (GenericMessage<String>) messageCollector.forChannel(processor.output()).poll();
+    JSONObject resultValue = createJsonObject(Objects.requireNonNull(result));
 
     //  assertThat(resultJsonObject.get("COM_CompanyName")).isEqualTo("Ceva Logistics - East
     // Liberty");
@@ -92,5 +90,9 @@ public class TransformApplicationListenerIntegrationTest {
             + "        \"ReasonCode\": \"Watch Moving\"}";
 
     return new JSONObject(test);
+  }
+
+  private JSONObject createJsonObject(GenericMessage<String> message) {
+    return new JSONObject(message.getPayload());
   }
 }

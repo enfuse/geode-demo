@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "kafka")
 public class KafkaConfig {
-    private String bootStrapServers;
+  private String bootStrapServers;
 
-    public String getBootStrapServers() {
-        return bootStrapServers;
-    }
+  public String getBootStrapServers() {
+    return bootStrapServers;
+  }
 
-    public void setBootStrapServers(String bootStrapServers) {
-        this.bootStrapServers = bootStrapServers;
-    }
+  public void setBootStrapServers(String bootStrapServers) {
+    this.bootStrapServers = bootStrapServers;
+  }
 }
