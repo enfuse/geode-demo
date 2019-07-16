@@ -4,6 +4,7 @@ import io.enfuse.pipeline.transform.domain.Transmission;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -13,11 +14,18 @@ import org.springframework.messaging.support.GenericMessage;
 @EnableBinding(Processor.class)
 public class TransformApplicationListener {
 
+  private Processor processor;
+
+  @Autowired
+  public TransformApplicationListener(Processor processor){
+    this.processor = processor;
+
+  }
+
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @StreamListener(Processor.INPUT)
-  @Output(Processor.OUTPUT)
-  public Transmission handle(GenericMessage<String> incomingMessage) {
+  public void handle(GenericMessage<String> incomingMessage) {
     JSONObject jsonPayload = new JSONObject(incomingMessage.getPayload());
     logger.info("incoming payload " + jsonPayload.toString());
 
@@ -30,6 +38,6 @@ public class TransformApplicationListener {
             .build();
 
     logger.info("publishing to kafka " + transmission.toString());
-    return transmission;
+    processor.output().send(new GenericMessage<>(new JSONObject(transmission).toString()));
   }
 }
