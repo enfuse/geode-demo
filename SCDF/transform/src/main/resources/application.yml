@@ -47,3 +47,11 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+
+kafka-properties:
+  brokers: localhost:9092
+  schema-registry: http://localhost:8081
+  group-id: scdf-geode-kafka-demo
+  listener-id: payload-listener
+  input-topic: scdf-geode-kafka-demo.http
+  output-topic: scdf-geode-kafka-demo.processor

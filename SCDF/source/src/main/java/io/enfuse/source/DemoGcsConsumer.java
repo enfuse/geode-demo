@@ -4,6 +4,7 @@ import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.kafka.clients.producer.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class DemoGcsConsumer {
         this.consumerConfig = config;
     }
 
+    @SuppressFBWarnings("DM_DEFAULT_ENCODING")
     void transferContent(Kafka kafka) {
         Producer producer = kafka.createProducer();
         try {

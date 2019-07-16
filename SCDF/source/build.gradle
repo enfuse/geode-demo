@@ -2,6 +2,10 @@ buildscript {
     ext {
         springBootVersion = '2.1.6.RELEASE'
         gradleReleasePluginVersion = '2.6.0'
+        spotbugsPluginVersion = '1.6.5'
+        spotbugsVersion = '3.1.9'
+        sherterGoogleJavaFormatPlugin = '0.8'
+        googleJavaFormatVersion = '1.7'
     }
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
@@ -9,6 +13,9 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spotbugsPluginVersion}")
+        classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:${sherterGoogleJavaFormatPlugin}")
+
     }
 }
 
@@ -17,6 +24,8 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'com.github.sherter.google-java-format'
 
 group = 'io.enfuse'
 description = 'source'
@@ -28,11 +37,28 @@ repositories {
     mavenCentral()
 
 }
+spotbugs {
+    toolVersion = spotbugsVersion
+    ignoreFailures = false
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+googleJavaFormat {
+    toolVersion = googleJavaFormatVersion
+}
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter'
     compile 'com.google.cloud:google-cloud-storage:1.82.0'
     compile 'org.apache.kafka:kafka-clients:2.3.0'
     compile 'org.springframework.boot:spring-boot-configuration-processor'
+    compile("com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}")
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -2,12 +2,20 @@ buildscript {
     ext {
         springBootVersion = '2.1.6.RELEASE'
         confluentVersion = '4.1.0'
+        spotbugsPluginVersion = '1.6.5'
+        spotbugsVersion = '3.1.9'
+        sherterGoogleJavaFormatPlugin = '0.8'
+        googleJavaFormatVersion = '1.7'
     }
     repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
         mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spotbugsPluginVersion}")
+        classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:${sherterGoogleJavaFormatPlugin}")
+
     }
 }
 
@@ -16,6 +24,8 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'com.github.sherter.google-java-format'
 
 group = 'io.enfuse.pipeline'
 description = 'transform'
@@ -29,6 +39,22 @@ repositories {
 
 ext {
     springCloudVersion = 'Greenwich.SR2'
+}
+
+spotbugs {
+    toolVersion = spotbugsVersion
+    ignoreFailures = false
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+googleJavaFormat {
+    toolVersion = googleJavaFormatVersion
 }
 
 dependencies {

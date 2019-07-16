@@ -18,7 +18,6 @@ public class Transmission {
     setSpeed(builder.speed);
   }
 
-
   public String getVehicleId() {
     return vehicleId;
   }
@@ -51,15 +50,13 @@ public class Transmission {
     this.speed = speed;
   }
 
-
   public static final class Builder {
     private String vehicleId;
     private String latitude;
     private String longitude;
     private String speed;
 
-    public Builder() {
-    }
+    public Builder() {}
 
     public Builder withVehicleId(String val) {
       vehicleId = val;
@@ -88,11 +85,19 @@ public class Transmission {
 
   @Override
   public String toString() {
-    return "Transmission{" +
-        "vehicleId='" + vehicleId + '\'' +
-        ", latitude='" + latitude + '\'' +
-        ", longitude='" + longitude + '\'' +
-        ", speed='" + speed + '\'' +
-        '}';
+    return "Transmission{"
+        + "vehicleId='"
+        + vehicleId
+        + '\''
+        + ", latitude='"
+        + latitude
+        + '\''
+        + ", longitude='"
+        + longitude
+        + '\''
+        + ", speed='"
+        + speed
+        + '\''
+        + '}';
   }
 }

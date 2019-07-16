@@ -1,11 +1,7 @@
 package io.enfuse.transform.util;
 
-
-
-
-import java.io.IOException;
-
 import io.enfuse.transform.domain.Transmission;
+import java.io.IOException;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
@@ -14,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
-
 
 public class MessageUtils {
   private static Logger log = LoggerFactory.getLogger(MessageUtils.class);
@@ -29,7 +24,6 @@ public class MessageUtils {
       log.error("avro schema parsing error" + e);
     }
   }
-
 
   public static <T> Message<T> message(T val) {
     return MessageBuilder.withPayload(val).build();
