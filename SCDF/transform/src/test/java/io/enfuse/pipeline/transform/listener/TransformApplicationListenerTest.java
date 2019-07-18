@@ -1,5 +1,9 @@
 package io.enfuse.pipeline.transform.listener;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,25 +15,17 @@ import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.GenericMessage;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
 @RunWith(MockitoJUnitRunner.class)
 public class TransformApplicationListenerTest {
   private TransformApplicationListener subject;
 
   private final String BAKED_INPUT = getTestJson().toString();
 
-  @Mock
-  private Processor mockProcessor;
+  @Mock private Processor mockProcessor;
 
-  @Mock
-  private MessageChannel mockMessageChannel;
+  @Mock private MessageChannel mockMessageChannel;
 
-  @Captor
-  private ArgumentCaptor<GenericMessage<String>> processorOutputCaptor;
+  @Captor private ArgumentCaptor<GenericMessage<String>> processorOutputCaptor;
 
   @Test
   public void handle_givenPayloadJsonBlob_returnsPayloadWithTransmissionData() {
@@ -45,7 +41,8 @@ public class TransformApplicationListenerTest {
     assertEquals("34464198", resultJsonObject.get("vehicleId"));
     assertEquals("40.110761", resultJsonObject.get("latitude"));
     assertEquals("-83.278189", resultJsonObject.get("longitude"));
-    assertEquals("36", resultJsonObject.get("speed"));  }
+    assertEquals("36", resultJsonObject.get("speed"));
+  }
 
   private static JSONObject getTestJson() {
     String test =

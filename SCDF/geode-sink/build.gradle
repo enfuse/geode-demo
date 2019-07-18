@@ -28,7 +28,7 @@ apply plugin: 'com.github.spotbugs'
 apply plugin: 'com.github.sherter.google-java-format'
 
 group = 'io.enfuse.pipeline'
-description = 'source'
+description = 'geode-sink'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -57,26 +57,28 @@ googleJavaFormat {
     toolVersion = googleJavaFormatVersion
 }
 
-
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.cloud:spring-cloud-starter-config')
-    compile('org.springframework.cloud:spring-cloud-stream')
-    compile('org.springframework.cloud:spring-cloud-stream-binder-kafka')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.cloud:spring-cloud-stream')
+    implementation('org.springframework.cloud:spring-cloud-stream-binder-kafka')
+    implementation('org.springframework.data:spring-data-geode:2.1.9.RELEASE')
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
 
-    compile 'org.springframework.boot:spring-boot-starter'
-    compile 'com.google.cloud:google-cloud-storage:1.82.0'
-    compile 'org.springframework.boot:spring-boot-configuration-processor'
-    compile("com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}")
-
-    compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.cloud:spring-cloud-stream-test-support')
-
 }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        exclude group: "com.jayway.jsonpath", module:"json-path"
+        exclude group: "org.skyscreamer", module:"jsonassert"
+    }
+}

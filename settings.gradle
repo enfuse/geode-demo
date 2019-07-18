@@ -1,4 +1,5 @@
 rootProject.name = 'scdf-geode-kafka-demo'
 include 'SCDF:source'
 include 'SCDF:transform'
+include 'SCDF:geode-sink'
 
