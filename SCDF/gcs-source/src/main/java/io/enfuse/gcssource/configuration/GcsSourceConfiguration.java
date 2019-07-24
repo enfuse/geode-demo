@@ -1,6 +1,7 @@
 package io.enfuse.gcssource.configuration;
 
 import com.google.cloud.storage.Storage;
+import com.google.gson.Gson;
 import io.enfuse.gcssource.properties.GcsConfigurationProperties;
 import org.springframework.cloud.gcp.storage.integration.GcsRemoteFileTemplate;
 import org.springframework.cloud.gcp.storage.integration.GcsSessionFactory;
@@ -15,6 +16,10 @@ import java.io.InputStream;
 
 @Configuration
 public class GcsSourceConfiguration {
+  @Bean
+  public Gson gson() {
+    return new Gson();
+  }
 
   @Bean
   @InboundChannelAdapter(channel = "streamChannel", poller = @Poller(fixedDelay = "1000"))

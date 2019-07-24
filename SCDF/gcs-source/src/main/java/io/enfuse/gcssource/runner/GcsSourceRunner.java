@@ -2,6 +2,8 @@ package io.enfuse.gcssource.runner;
 
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Storage;
+import com.google.gson.Gson;
+import io.enfuse.gcssource.dto.TruckTelemetry;
 import io.enfuse.gcssource.properties.GcsConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -21,18 +23,22 @@ import java.io.IOException;
 @EnableBinding(Processor.class)
 @EnableSchemaRegistryClient
 public class GcsSourceRunner {
+  private Gson gson;
 
   private GcsConfigurationProperties properties;
   private Storage gcs;
 
   @Autowired
-  public GcsSourceRunner(GcsConfigurationProperties properties, Storage gcs) {
+  public GcsSourceRunner(GcsConfigurationProperties properties, Storage gcs, Gson gson) {
     this.properties = properties;
     this.gcs = gcs;
+    this.gson = gson;
   }
 
   @ServiceActivator(inputChannel = "streamChannel")
   public void outboundChannelAdapter(Message<?> message) throws IOException, JSONException {
+
+    TruckTelemetry truckTelemetry;
 
     String filePath = message.getHeaders().get(FileHeaders.REMOTE_FILE, String.class);
     Blob blob = gcs.get(properties.getBucket(), filePath);
@@ -50,6 +56,10 @@ public class GcsSourceRunner {
       System.out.println("******************* JSON Added ");
       jsonObject = jsonArray.getJSONObject(i);
       System.out.println(jsonObject);
+
+      truckTelemetry = gson.fromJson(String.valueOf(jsonObject), TruckTelemetry.class);
+      System.out.println("****************** TruckTelemetry ");
+      System.out.println(truckTelemetry);
     }
   }
 }
