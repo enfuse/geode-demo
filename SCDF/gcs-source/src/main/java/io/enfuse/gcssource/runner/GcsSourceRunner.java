@@ -23,16 +23,13 @@ import java.io.IOException;
 @EnableBinding(Processor.class)
 @EnableSchemaRegistryClient
 public class GcsSourceRunner {
-  private Gson gson;
-
   private GcsConfigurationProperties properties;
   private Storage gcs;
 
   @Autowired
-  public GcsSourceRunner(GcsConfigurationProperties properties, Storage gcs, Gson gson) {
+  public GcsSourceRunner(GcsConfigurationProperties properties, Storage gcs) {
     this.properties = properties;
     this.gcs = gcs;
-    this.gson = gson;
   }
 
   @ServiceActivator(inputChannel = "streamChannel")
@@ -47,17 +44,14 @@ public class GcsSourceRunner {
 
     System.out.println("*******FILE PATH " + filePath);
 
-    JSONObject jsonFromFile = new JSONObject(s);
-
-    JSONArray jsonArray = jsonFromFile.getJSONArray("HistoryList");
-    JSONObject jsonObject;
+    JSONArray jsonArray = io.enfuse.gcssource.util.MessageUtils.convertStringToJsonArray(s);
 
     for (int i = 0; i < jsonArray.length(); i++) {
       System.out.println("******************* JSON Added ");
-      jsonObject = jsonArray.getJSONObject(i);
+      JSONObject jsonObject = jsonArray.getJSONObject(i);
       System.out.println(jsonObject);
 
-      truckTelemetry = gson.fromJson(String.valueOf(jsonObject), TruckTelemetry.class);
+      truckTelemetry = io.enfuse.gcssource.util.MessageUtils.convertJsonToTruckTelemetry(jsonObject);
       System.out.println("****************** TruckTelemetry ");
       System.out.println(truckTelemetry);
     }

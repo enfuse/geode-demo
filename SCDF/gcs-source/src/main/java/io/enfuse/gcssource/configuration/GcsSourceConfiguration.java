@@ -16,10 +16,6 @@ import java.io.InputStream;
 
 @Configuration
 public class GcsSourceConfiguration {
-  @Bean
-  public Gson gson() {
-    return new Gson();
-  }
 
   @Bean
   @InboundChannelAdapter(channel = "streamChannel", poller = @Poller(fixedDelay = "1000"))

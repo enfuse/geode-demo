@@ -1,55 +1,152 @@
 package io.enfuse.gcssource.dto;
 
-public class TruckTelemetry {
-  private String SequenceNumber;
-  private String TimeTransmitted;
-  private String TimeReceived;
-  private String TimeZoneOffset;
-  private String CompanyName;
-  private String VehicleId;
-  private String VehicleName;
-  private String VIN;
-  private String MaxSpeed;
-  private String OdometerInMiles;
-  private String TotalFuelUsed;
-  private String TotalEngineHours;
-  private String TotalIdleHours;
-  private String RPM100Minutes;
-  private String RPM1500Minutes;
-  private String RPM2000Minutes;
-  private String CruiseMinutes;
-  private String MPH01Minutes;
-  private String MPH35Minutes;
-  private String MPH55Minutes;
-  private String MPH66Minutes;
-  private String HardBrakingMinutes;
-  private String DTC47;
-  private String DTC50;
-  private String DTCLegacy;
-  private String PID1;
-  private String FMI1;
-  private String PID2;
-  private String FMI2;
-  private String PID3;
-  private String FMI3;
-  private String PID4;
-  private String FMI4;
-  private String TankPercent;
-  private String DeviceNumber;
-  private String ModelPCB;
-  private String Latitude;
-  private String Longitude;
-  private String Address;
-  private String City;
-  private String Province;
-  private String PostalCode;
-  private String Country;
-  private String CardinalDirection;
-  private String AltitudeInFeet;
-  private String Speed;
-  private boolean GPSFix;
-  private String ReasonCode;
+import com.google.gson.annotations.SerializedName;
 
+public class TruckTelemetry {
+
+  @SerializedName("MSG_SequenceNumber")
+  private String SequenceNumber;
+
+  @SerializedName("MSG_TimeTransmitted")
+  private String TimeTransmitted;
+
+  @SerializedName("MSG_TimeReceived")
+  private String TimeReceived;
+
+  @SerializedName("MSG_TimeZoneOffset")
+  private String TimeZoneOffset;
+
+  @SerializedName("COM_CompanyName")
+  private String CompanyName;
+
+  @SerializedName("VEH_VehicleId")
+  private String VehicleId;
+
+  @SerializedName("VEH_VehicleName")
+  private String VehicleName;
+
+  @SerializedName("VEH_VIN")
+  private String VIN;
+
+  @SerializedName("ENG_MaxSpeed")
+  private String MaxSpeed;
+
+  @SerializedName("ENG_OdometerInMiles")
+  private String OdometerInMiles;
+
+  @SerializedName("ENG_TotalFuelUsed")
+  private String TotalFuelUsed;
+
+  @SerializedName("ENG_TotalEngineHours")
+  private String TotalEngineHours;
+
+  @SerializedName("ENG_TotalIdleHours")
+  private String TotalIdleHours;
+
+  @SerializedName("ENG_RPM100Minutes")
+  private String RPM100Minutes;
+
+  @SerializedName("ENG_RPM1500Minutes")
+  private String RPM1500Minutes;
+
+  @SerializedName("ENG_RPM2000Minutes")
+  private String RPM2000Minutes;
+
+  @SerializedName("ENG_CruiseMinutes")
+  private String CruiseMinutes;
+
+  @SerializedName("ENG_MPH01Minutes")
+  private String MPH01Minutes;
+
+  @SerializedName("ENG_MPH35Minutes")
+  private String MPH35Minutes;
+
+  @SerializedName("ENG_MPH55Minutes")
+  private String MPH55Minutes;
+
+  @SerializedName("ENG_MPH66Minutes")
+  private String MPH66Minutes;
+
+  @SerializedName("ENG_HardBrakingMinutes")
+  private String HardBrakingMinutes;
+
+  @SerializedName("ENG_DTC47")
+  private String DTC47;
+
+  @SerializedName("ENG_DTC50")
+  private String DTC50;
+
+  @SerializedName("ENG_DTCLegacy")
+  private String DTCLegacy;
+
+  @SerializedName("ENG_PID1")
+  private String PID1;
+
+  @SerializedName("ENG_FMI1")
+  private String FMI1;
+
+  @SerializedName("ENG_PID2")
+  private String PID2;
+
+  @SerializedName("ENG_FMI2")
+  private String FMI2;
+
+  @SerializedName("ENG_PID3")
+  private String PID3;
+
+  @SerializedName("ENG_FMI3")
+  private String FMI3;
+
+  @SerializedName("ENG_PID4")
+  private String PID4;
+
+  @SerializedName("ENG_FMI4")
+  private String FMI4;
+
+  @SerializedName("ENG_TankPercent")
+  private String TankPercent;
+
+  @SerializedName("DEV_DeviceNumber")
+  private String DeviceNumber;
+
+  @SerializedName("DEV_ModelPCB")
+  private String ModelPCB;
+
+  @SerializedName("LOC_Latitude")
+  private String Latitude;
+
+  @SerializedName("LOC_Longitude")
+  private String Longitude;
+
+  @SerializedName("LOC_Address")
+  private String Address;
+
+  @SerializedName("LOC_City")
+  private String City;
+
+  @SerializedName("LOC_Province")
+  private String Province;
+
+  @SerializedName("LOC_PostalCode")
+  private String PostalCode;
+
+  @SerializedName("LOC_Country")
+  private String Country;
+
+  @SerializedName("LOC_CardinalDirection")
+  private String CardinalDirection;
+
+  @SerializedName("LOC_AltitudeInFeet")
+  private String AltitudeInFeet;
+
+  @SerializedName("LOC_Speed")
+  private String Speed;
+
+  @SerializedName("LOC_GPSFix")
+  private String GPSFix;
+
+  @SerializedName("ReasonCode")
+  private String ReasonCode;
 
 
   public String getSequenceNumber() {
@@ -420,11 +517,11 @@ public class TruckTelemetry {
     Speed = speed;
   }
 
-  public boolean getGPSFix() {
+  public String getGPSFix() {
     return GPSFix;
   }
 
-  public void setGPSFix(boolean GPSFix) {
+  public void setGPSFix(String GPSFix) {
     this.GPSFix = GPSFix;
   }
 
