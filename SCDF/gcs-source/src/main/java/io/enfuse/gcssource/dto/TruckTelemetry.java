@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class TruckTelemetry {
 
   @SerializedName("MSG_SequenceNumber")
-  private String SequenceNumber;
+  private String sequenceNumber;
 
   @SerializedName("MSG_TimeTransmitted")
   private String TimeTransmitted;
@@ -24,6 +24,7 @@ public class TruckTelemetry {
 
   @SerializedName("VEH_VehicleName")
   private String VehicleName;
+
 
   @SerializedName("VEH_VIN")
   private String VIN;
@@ -69,15 +70,6 @@ public class TruckTelemetry {
 
   @SerializedName("ENG_HardBrakingMinutes")
   private String HardBrakingMinutes;
-
-  @SerializedName("ENG_DTC47")
-  private String DTC47;
-
-  @SerializedName("ENG_DTC50")
-  private String DTC50;
-
-  @SerializedName("ENG_DTCLegacy")
-  private String DTCLegacy;
 
   @SerializedName("ENG_PID1")
   private String PID1;
@@ -150,11 +142,11 @@ public class TruckTelemetry {
 
 
   public String getSequenceNumber() {
-    return SequenceNumber;
+    return sequenceNumber;
   }
 
   public void setSequenceNumber(String sequenceNumber) {
-    SequenceNumber = sequenceNumber;
+    this.sequenceNumber = sequenceNumber;
   }
 
   public String getTimeTransmitted() {
@@ -323,30 +315,6 @@ public class TruckTelemetry {
 
   public void setHardBrakingMinutes(String hardBrakingMinutes) {
     HardBrakingMinutes = hardBrakingMinutes;
-  }
-
-  public String getDTC47() {
-    return DTC47;
-  }
-
-  public void setDTC47(String DTC47) {
-    this.DTC47 = DTC47;
-  }
-
-  public String getDTC50() {
-    return DTC50;
-  }
-
-  public void setDTC50(String DTC50) {
-    this.DTC50 = DTC50;
-  }
-
-  public String getDTCLegacy() {
-    return DTCLegacy;
-  }
-
-  public void setDTCLegacy(String DTCLegacy) {
-    this.DTCLegacy = DTCLegacy;
   }
 
   public String getPID1() {
@@ -536,7 +504,7 @@ public class TruckTelemetry {
   @Override
   public String toString() {
     return "TruckTelemetry{" +
-        "SequenceNumber='" + SequenceNumber + '\'' +
+        "SequenceNumber='" + sequenceNumber + '\'' +
         ", TimeTransmitted='" + TimeTransmitted + '\'' +
         ", TimeReceived='" + TimeReceived + '\'' +
         ", TimeZoneOffset='" + TimeZoneOffset + '\'' +
@@ -558,9 +526,6 @@ public class TruckTelemetry {
         ", MPH55Minutes='" + MPH55Minutes + '\'' +
         ", MPH66Minutes='" + MPH66Minutes + '\'' +
         ", HardBrakingMinutes='" + HardBrakingMinutes + '\'' +
-        ", DTC47='" + DTC47 + '\'' +
-        ", DTC50='" + DTC50 + '\'' +
-        ", DTCLegacy='" + DTCLegacy + '\'' +
         ", PID1='" + PID1 + '\'' +
         ", FMI1='" + FMI1 + '\'' +
         ", PID2='" + PID2 + '\'' +

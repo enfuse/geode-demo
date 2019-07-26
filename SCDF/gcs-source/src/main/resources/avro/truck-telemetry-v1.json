@@ -1,0 +1,420 @@
+{
+  "type": "record",
+  "namespace": "io.enfuse.gcssource",
+  "name": "TruckTelemetry",
+  "version": "1",
+  "fields": [
+    {
+      "name": "MSG_SequenceNumber",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "MSG Sequence Number",
+      "default": null
+    },
+    {
+      "name": "MSG_TimeTransmitted",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "MSG Time Transmitted",
+      "default": null
+    },
+    {
+      "name": "MSG_TimeReceived",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "MSG Time Received",
+      "default": null
+    },
+    {
+      "name": "MSG_TimeZoneOffset",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "MSG Time Zone Offset",
+      "default": null
+    },
+    {
+      "name": "COM_CompanyName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "Company Name",
+      "default": null
+    },
+    {
+      "name": "VEH_VehicleId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "Vehicle Id",
+      "default": null
+    },
+    {
+      "name": "VEH_VehicleName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "Vehicle Name",
+      "default": null
+    },
+    {
+      "name": "VEH_VIN",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "Vehicle VIN",
+      "default": null
+    },
+    {
+      "name": "ENG_MaxSpeed",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Max Speed",
+      "default": null
+    },
+    {
+      "name": "ENG_OdometerInMiles",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Odometer In Miles",
+      "default": null
+    },
+    {
+      "name": "ENG_TotalFuelUsed",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Total Fuel Used",
+      "default": null
+    },
+    {
+      "name": "ENG_TotalEngineHours",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Total Engine Hours",
+      "default": null
+    },
+    {
+      "name": "ENG_TotalIdleHours",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Total Idle Hours",
+      "default": null
+    },
+    {
+      "name": "ENG_RPM100Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG RPM 100 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_RPM1500Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG RPM 1500 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_RPM2000Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG RPM 2000 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_CruiseMinutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Cruise Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_MPH01Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG MPH 01 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_MPH35Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG MPH 35 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_MPH55Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG MPH 55 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_MPH66Minutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG MPH 66 Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_HardBrakingMinutes",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Hard Braking Minutes",
+      "default": null
+    },
+    {
+      "name": "ENG_PID1",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG PID1",
+      "default": null
+    },
+    {
+      "name": "ENG_FMI1",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG FMI1",
+      "default": null
+    },
+    {
+      "name": "ENG_PID2",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG PID2",
+      "default": null
+    },
+    {
+      "name": "ENG_FMI2",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG FMI2",
+      "default": null
+    },
+    {
+      "name": "ENG_PID3",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG PID3",
+      "default": null
+    },
+    {
+      "name": "ENG_FMI3",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG FMI3",
+      "default": null
+    },
+    {
+      "name": "ENG_PID4",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG PID4",
+      "default": null
+    },
+    {
+      "name": "ENG_FMI4",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG FMI4",
+      "default": null
+    },
+    {
+      "name": "ENG_TankPercent",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "ENG Tank Percent",
+      "default": null
+    },
+    {
+      "name": "DEV_DeviceNumber",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "DEV Device Number",
+      "default": null
+    },
+    {
+      "name": "DEV_ModelPCB",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "DEV Model PCB",
+      "default": null
+    },
+    {
+      "name": "LOC_Latitude",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Latitude",
+      "default": null
+    },
+    {
+      "name": "LOC_Longitude",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Longitude",
+      "default": null
+    },
+    {
+      "name": "LOC_Address",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Address",
+      "default": null
+    },
+    {
+      "name": "LOC_City",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC City",
+      "default": null
+    },
+    {
+      "name": "LOC_Province",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Province",
+      "default": null
+    },
+    {
+      "name": "LOC_PostalCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Postal Code",
+      "default": null
+    },
+    {
+      "name": "LOC_Country",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Country",
+      "default": null
+    },
+    {
+      "name": "LOC_CardinalDirection",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Cardinal Direction",
+      "default": null
+    },
+    {
+      "name": "LOC_AltitudeInFeet",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Altitude In Feet",
+      "default": null
+    },
+    {
+      "name": "LOC_Speed",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC Speed",
+      "default": null
+    },
+    {
+      "name": "LOC_GPSFix",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "LOC GPS Fix",
+      "default": null
+    },
+    {
+      "name": "ReasonCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "Reason Code",
+      "default": null
+    }
+  ]
+}
+
+
+
+
+
+
+

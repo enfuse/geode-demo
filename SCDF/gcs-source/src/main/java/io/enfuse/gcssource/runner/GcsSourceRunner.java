@@ -2,9 +2,9 @@ package io.enfuse.gcssource.runner;
 
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Storage;
-import com.google.gson.Gson;
 import io.enfuse.gcssource.dto.TruckTelemetry;
 import io.enfuse.gcssource.properties.GcsConfigurationProperties;
+import io.enfuse.gcssource.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -44,14 +44,14 @@ public class GcsSourceRunner {
 
     System.out.println("*******FILE PATH " + filePath);
 
-    JSONArray jsonArray = io.enfuse.gcssource.util.MessageUtils.convertStringToJsonArray(s);
+    JSONArray jsonArray = MessageUtils.convertStringToJsonArray(s);
 
     for (int i = 0; i < jsonArray.length(); i++) {
       System.out.println("******************* JSON Added ");
       JSONObject jsonObject = jsonArray.getJSONObject(i);
       System.out.println(jsonObject);
 
-      truckTelemetry = io.enfuse.gcssource.util.MessageUtils.convertJsonToTruckTelemetry(jsonObject);
+      truckTelemetry = MessageUtils.convertJsonToTruckTelemetry(jsonObject);
       System.out.println("****************** TruckTelemetry ");
       System.out.println(truckTelemetry);
     }
