@@ -6,6 +6,38 @@ spring:
       project-id: enfuse-gke
       credentials:
         encoded-key: "ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAiZW5mdXNlLWdrZSIsCiAgInByaXZhdGVfa2V5X2lkIjogIjJiMmMyNDc2ZjFhZDY0MjhjYTZlN2MzMjU4OTYwOGNlNzFlYzY0YWEiLAogICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRRGhtS3RYMlUzSWdYUnZcbkZYUUVyTEFKNkRpRXRkZ3pieHBZbHZ5bWhIb1REMmg5cWdvaGdEeE9ERFRFQ210Umg3N0NockZ1L25YRS90Q09cbmpCRHcyQ0lKOUhQOGtCS1NXdy9kVkJRYzB2VWx4azhpYUhGTU1yUExqUDRWcDAzQjhPSXkwNWhTRkpyT3dialVcbmhTZXZmZTU2Tk9SUlpydGJXSktkNmQ4Zk9BRXZIWlp2NG8zeTQrTkQzTHhwbmJJWDhDNEZqODBvc2lZemJCa0RcbmxQR25lVmk3MHZQOXZvM20ra3lmc0NYTXN0d245aVBxOUg2MWZIN0lZZktFcE5iVXBIKzlJbm11UnViQjZLR1lcblE3Uk0rMFc1WDFDNDF2SEN6dWp3NXlQTFlzb0FsUS9aRHZhQ0VueU9YSGZyd1BFeGNsNjhGN1lRU2F5RmswcE1cbi9EeXg4bkRwQWdNQkFBRUNnZ0VBU0lLQ0hDZmZ6T0R6RkJ0QW9ab0JzUVYvV1FSN3U3aHJydXJFeFI3U2Y5clZcbmVvS1RaQVlzRytmbmM5Vm5maHFUOFVGS3VZSzNScnlpT3hjQkFQQnZMR1R5Zk15djgzT3Fheml4aUR3MENGS3ZcbnI3OERIM3N5ZCt2VzVRM1R1OURaVzMzUU9SMmZUbkpNbnA0M3pidTcwWEs3cWdCTG13WWloZmdjTzVRTUtXQ09cbkhsUm55Tzk1UTZtdXZYNVl0TWVoOWNLVDI4ejJ3QnNvbFpkUFBRejV3M3dnR3VZL2ZNRStPclFTWFNqM1ZqVHlcblNxTjVEWGlobk44V3JqU21CcHQyOFdpQ1oyZTFiaDdDYmdwNDR3Qi9aQjlLbStJQ3JSVENHRHdWaFRXZW84ZnVcbmY2T2YyYmJoRzQ3UTd2ZTg1a2Z2bDB6OGJsb1RzbSt5RnlYSzB2Mkl5d0tCZ1FENGJ0L0grMEF4b1pMMng1YXlcbmJTMDlFMXlEZU8yNXc1TW45bXNVVG9FKzRaUEV6MzA2Z2c2ckNQTGZjc01BU3M0K3BaazNxbkQxYldsZlFhRzhcbjJOcGdiRXJycHVOalozcEhsWlBwMmUybUxCbDNQRFZWd3ZCYkp5R0puNjhYdjQ4N0JnckRZeWs5NWVCYUE0QmJcbnErd2RZQjJHTVFvclJPR3htWENZQVNXMHJ3S0JnUURvZDdxRDcyVjkzQ0FxdUgzTEZieEhRbEhNQUEyYVo4UkZcbjJtSUZOSnEwejgxeXJkRUFiTFV5aTlEcmFBK2I1bGNXRnM2SklHYm9zbCsrSU9CQmI0WXEyY1dwWE1IVVlWL1FcbjJqeHlOOGNUVlZ3dG05dDdZUnVFbTBjZ25JRjVxZ0ExQll3Mk56YnhKdmFzNUVPVFNvOHlESzFUNGtHQTVOODJcbmg3WGpWS0hKNXdLQmdRQ2Zya1JRT2dKTTVGbWVIVE9UZy9FcjdLSHVMM0E5a3FPbmNBL3JnWG81Zkt5S09BTjVcbjg5YVJ3TEs3UlB4cDE2c3hRU2QyVEN0RzFRaUJuYUhqekU2dzQycFVoWFJxbER4WWZxQVFFMjlZKzhkeWlGU1Bcbnh6ak9uaHhFWlVzWnJKclhpVTZwdjdibWZqYnlKSVlBWmtUaHJNSE5Xdi82UjgvNVkzS25nVFZIS1FLQmdIYWhcblFzazVUYTJndTdtUlZJQmlveVlxTGR2UTJ5QkVlK0M1eFBPckdKZlV3NThXSEdYL0U2aXJ1UDJvcU82QjZVY1lcbmRHVjk1NFl3SUxQQnl5OFpYbnBYajRzU0RzZjJ1UkszaThrdHRhV2tGZG9nZ3l5L0xXL0tYYzNDa0VBcUJOa0pcbjc3ZHJEZHFhYTU5bkRTVUpFM0lURGhDVWthRFpLeCtFdWNrODB5TlpBb0dCQU12THc1KzhPRCtkdXROMXh6M05cbmh5c3gzSVdWanhqZUtkRXdUeUF6TUQ4V2MyT09WQit6MHh6NzZYeklMN1dRMmIyWjZnUVllT1pLZ01PbVRrVVJcbjh5cWV6YkZvUGxEbEovMmhPOFNuaWlmMUtNS09zeHdWRldxcFlzQ1UxeGxBNFhKTzdiYTd5eXhxczE5UE9EV2dcblRudU54S3FDK2RnR2pGcXlIcWV3OG9XT1xuLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLVxuIiwKICAiY2xpZW50X2VtYWlsIjogImRldi03OTFAZW5mdXNlLWdrZS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsCiAgImNsaWVudF9pZCI6ICIxMDM1NDExODIxMzQ5NTExOTAwODYiLAogICJhdXRoX3VyaSI6ICJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20vby9vYXV0aDIvYXV0aCIsCiAgInRva2VuX3VyaSI6ICJodHRwczovL29hdXRoMi5nb29nbGVhcGlzLmNvbS90b2tlbiIsCiAgImF1dGhfcHJvdmlkZXJfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9vYXV0aDIvdjEvY2VydHMiLAogICJjbGllbnRfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9yb2JvdC92MS9tZXRhZGF0YS94NTA5L2Rldi03OTElNDBlbmZ1c2UtZ2tlLmlhbS5nc2VydmljZWFjY291bnQuY29tIgp9Cg=="
+    stream:
+      bindings:
+        output:
+          destination: ${kafka-properties.output-topic}
+          contentType: application/json
+          producer:
+            useNativeEncoding: true
+            headerMode: raw
+      #      schemaRegistryClient:
+      #        endpoint: ${kafka-properties.schema-registry-path}
+      kafka:
+        bindings:
+          output:
+            content-type: application/*avro
+            producer:
+              configuration:
+                schema.registry.url: ${kafka-properties.schema-registry-path}
+                max.request.size: ${kafka-properties.message-size}
+        binder:
+          brokers: ${kafka-properties.kafka-brokers}
+  #          configuration:
+  #            max.request.size: ${kafka-properties.message-size}
+  kafka:
+    producer:
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+kafka-properties:
+  schema-registry-path: http://localhost:8081
+  kafka-brokers: localhost:9092
+  output-topic: gcs-output_with_avro_schema
+  message-size: 1000011
 
 gcs:
   bucket: enfuse-telemetry-data
