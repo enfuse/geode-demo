@@ -1,4 +1,4 @@
-q#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 
 ./tools/destroy-stream.sh
@@ -6,3 +6,5 @@ q#!/usr/bin/env bash
 ./tools/register-apps.sh
 
 ./tools/deploy-stream.sh
+
+./tools/generateGeodeSampleData.sh

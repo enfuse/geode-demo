@@ -34,6 +34,7 @@ sourceCompatibility = 1.8
 
 repositories {
     maven { url "http://packages.confluent.io/maven/" }
+    maven { url 'https://repo.spring.io/milestone' }
     mavenCentral()
 }
 
@@ -58,15 +59,19 @@ googleJavaFormat {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.cloud:spring-cloud-starter-config')
-    compile('org.springframework.cloud:spring-cloud-stream')
-    compile('org.springframework.cloud:spring-cloud-stream-binder-kafka')
-    compile('org.json:json:20180813')
-    compileOnly('org.springframework.boot:spring-boot-configuration-processor')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.cloud:spring-cloud-stream-test-support')
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.cloud:spring-cloud-starter-config')
+    implementation('org.springframework.cloud:spring-cloud-stream')
+    implementation('org.springframework.cloud:spring-cloud-stream-binder-kafka')
+    implementation('org.json:json:20180813')
+
+
+    implementation('org.springframework.geode:spring-geode-starter:1.1.0.M3')
+    implementation('org.springframework.boot:spring-boot-configuration-processor')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
 }
 
 test.dependsOn(
@@ -81,3 +86,10 @@ dependencyManagement {
     }
 }
 
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        exclude group: "com.jayway.jsonpath", module:"json-path"
+        exclude group: "org.skyscreamer", module:"jsonassert"
+    }
+}

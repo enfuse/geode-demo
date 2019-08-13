@@ -1,7 +1,10 @@
 package io.enfuse.pipeline.transform.domain;
 
+import org.springframework.data.gemfire.mapping.annotation.Region;
+
 //  truck’s identifier and its lat and long.
-public class Transmission {
+@Region("telemetryRegion")
+public class Telemetry {
   // VEH_VehicleId
   String vehicleId;
   // LOC_Latitude
@@ -11,11 +14,14 @@ public class Transmission {
   // LOC_Speed
   String speed;
 
-  private Transmission(Builder builder) {
+  String value;
+
+  private Telemetry(Builder builder) {
     setVehicleId(builder.vehicleId);
     setLatitude(builder.latitude);
     setLongitude(builder.longitude);
     setSpeed(builder.speed);
+    setValue(builder.value);
   }
 
   public String getVehicleId() {
@@ -50,11 +56,20 @@ public class Transmission {
     this.speed = speed;
   }
 
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
+
   public static final class Builder {
     private String vehicleId;
     private String latitude;
     private String longitude;
     private String speed;
+    private String value;
 
     public Builder() {}
 
@@ -78,14 +93,19 @@ public class Transmission {
       return this;
     }
 
-    public Transmission build() {
-      return new Transmission(this);
+    public Builder withValue(String val) {
+      value = val;
+      return this;
+    }
+
+    public Telemetry build() {
+      return new Telemetry(this);
     }
   }
 
   @Override
   public String toString() {
-    return "Transmission{"
+    return "Telemetry{"
         + "vehicleId='"
         + vehicleId
         + '\''
@@ -97,6 +117,9 @@ public class Transmission {
         + '\''
         + ", speed='"
         + speed
+        + '\''
+        + ", value='"
+        + value
         + '\''
         + '}';
   }
