@@ -66,6 +66,7 @@ dependencies {
     implementation('org.springframework.cloud:spring-cloud-stream')
     implementation('org.springframework.cloud:spring-cloud-stream-binder-kafka')
     implementation('org.json:json:20180813')
+    implementation('io.micrometer:micrometer-registry-prometheus:latest.release')
 
 
     implementation('org.springframework.geode:spring-geode-starter:1.1.0.M3')

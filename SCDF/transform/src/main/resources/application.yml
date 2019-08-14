@@ -4,3 +4,17 @@ server:
 spring:
   application:
     name: transform
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true

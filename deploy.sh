@@ -7,4 +7,4 @@
 
 ./tools/deploy-stream.sh
 
-./tools/generateGeodeSampleData.sh
+#./tools/generateGeodeSampleData.sh
