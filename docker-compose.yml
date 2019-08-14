@@ -125,9 +125,10 @@ services:
       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=zookeeper:2181
       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.streams.binder.zkNodes=zookeeper:2181
       - spring.cloud.skipper.client.serverUri=http://skipper.localhost:7577/api
-      - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
-      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.streamapp.security.enabled=false
-      - spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=prometheus,info,health
+      - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled=true
+      - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db=myinfluxdb
+      - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri=http://influxdb:8086
+      - logging.level=DEBUG
       - spring.cloud.dataflow.grafana-info.url=http://localhost:3000
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/dataflow
       - SPRING_DATASOURCE_USERNAME=root
@@ -191,45 +192,24 @@ services:
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.mariadb.jdbc.Driver
     volumes:
       - '~/.m2:/root/.m2'
-  # Grafana is configured with the Prometheus datasource.
-  # Use `docker exec -it prometheus /bin/sh` to logging in the container
-  prometheus:
-    image: springcloud/spring-cloud-dataflow-prometheus-local:2.1.2.RELEASE
-    container_name: prometheus
-    networks:
-      default:
-        aliases: [prometheus.localhost]
-    ports:
-      - "9090:9090"
-    volumes:
-      - 'scdf-targets:/etc/prometheus/'
 
-  service-discovery:
-    image: springcloud/spring-cloud-dataflow-prometheus-service-discovery:0.0.4.RELEASE
-    container_name: service-discovery
-    depends_on: [dns,dataflow-server]
+  influxdb:
+    image: influxdb:1.7.4
+    container_name: 'influxdb'
+    hostname: influxdb.localhost
+    depends_on: [dns]
     dns: [172.19.0.2]
     networks:
       default:
-        aliases: [service-discovery.localhost]
-    volumes:
-      - 'scdf-targets:/tmp/scdf-targets/'
-    expose:
-      - '8181'
+        aliases: [influxdb.localhost]
     ports:
-      - '8181:8181'
-    environment:
-      - metrics.prometheus.target.cron=0/20 * * * * *
-      - metrics.prometheus.target.filePath=/tmp/scdf-targets/targets.json
-      - metrics.prometheus.target.discoveryUrl=http://dataflow-server:9393/runtime/apps
-      - metrics.prometheus.target.overrideIp=skipper-server
-      - server.port=8181
-
+      - '8086:8086'
 
   grafana:
-    image: springcloud/spring-cloud-dataflow-grafana-prometheus:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-grafana-influxdb:2.1.2.RELEASE
     container_name: grafana
-    depends_on: [dns, prometheus]
+    hostname: grafana.localhost
+    depends_on: [dns, influxdb]
     dns: [172.19.0.2]
     networks:
       default:
