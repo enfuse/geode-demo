@@ -1,6 +1,6 @@
 apiVersion: 1
 providers:
-  - name: 'default'       # name of this dashboard configuration (not dashboard itself)
+  - name: 'wer'       # name of this dashboard configuration (not dashboard itself)
     org_id: 1             # id of the org to hold the dashboard
     type: 'file'          # type of dashboard description (json files)
     editable: true

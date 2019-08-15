@@ -236,6 +236,9 @@ services:
         aliases: [grafana.localhost]
     ports:
       - "3000:3000"
+    volumes:
+#      - ./docker/grafana/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards
 
 
 

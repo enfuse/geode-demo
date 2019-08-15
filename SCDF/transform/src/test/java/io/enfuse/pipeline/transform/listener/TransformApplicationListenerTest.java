@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import io.enfuse.pipeline.transform.domain.TelemetryRepository;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ public class TransformApplicationListenerTest {
   @Mock private Region mockRegion;
 
   @Captor private ArgumentCaptor<GenericMessage<String>> processorOutputCaptor;
+  @Mock private TelemetryRepository telemetryRepository;
 
   @Test
   public void handle_givenPayloadJsonBlob_returnsPayloadWithTransmissionData() {
@@ -41,7 +43,7 @@ public class TransformApplicationListenerTest {
     when(mockRegion.get("34464198")).thenReturn("34464198 value");
 
     GenericMessage<String> bakedMessage = new GenericMessage<>(BAKED_INPUT);
-    subject = new TransformApplicationListener(mockProcessor, mockClientCache);
+    subject = new TransformApplicationListener(mockProcessor, telemetryRepository);
     subject.handle(bakedMessage);
 
     verify(mockMessageChannel).send(processorOutputCaptor.capture());

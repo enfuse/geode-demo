@@ -20,7 +20,7 @@ START_INDEX=${1:-1}
 NUMBER_TO_GENERATE=${2:-100}
 
 # base curl command to build on
-CURL_STRING="curl -sS -i -H 'Content-Type: application/json' -X POST localhost:9998"
+CURL_STRING="curl -sS -i -H 'Content-Type: application/json' -X POST localhost:20000"
 
 # createCurlCommand()
 #

@@ -1,9 +1,9 @@
 package io.enfuse.pipeline.transform.listener;
 
 import io.enfuse.pipeline.transform.domain.Telemetry;
+import io.enfuse.pipeline.transform.domain.TelemetryRepository;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
-import org.apache.geode.cache.client.ClientCache;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +23,15 @@ public class TransformApplicationListener {
 
   private Processor processor;
 
-  private ClientCache clientCache;
+  private TelemetryRepository telemetryRepository;
 
   @Autowired private MeterRegistry registry;
 
   @Autowired
-  public TransformApplicationListener(Processor processor, ClientCache clientCache) {
+  public TransformApplicationListener(
+      Processor processor, TelemetryRepository telemetryRepository) {
     this.processor = processor;
-    this.clientCache = clientCache;
+    this.telemetryRepository = telemetryRepository;
   }
 
   @StreamListener(Processor.INPUT)
@@ -44,9 +45,10 @@ public class TransformApplicationListener {
     registry.counter("custom.metrics.for.transform").increment();
 
     registry
-        .timer("Geode.Speed.throughput", "GeodeSpeed.Tag", "Time")
+        .timer("Geode.Speed.throughput", "Geode.Speed.Tag", "Time")
         .record(() -> System.out.println("timerTest"));
-    String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
+    //    String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
+    String vehicleValue = telemetryRepository.findById(vehicleId).toString();
     Telemetry telemetry =
         new Telemetry.Builder()
             .withVehicleId(jsonPayload.get("VehicleId").toString())
