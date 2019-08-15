@@ -1,6 +1,8 @@
 package io.enfuse.pipeline.transform.listener;
 
 import io.enfuse.pipeline.transform.domain.Telemetry;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.geode.cache.client.ClientCache;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableBinding(Processor.class)
+@Timed
 public class TransformApplicationListener {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -21,6 +24,8 @@ public class TransformApplicationListener {
   private Processor processor;
 
   private ClientCache clientCache;
+
+  @Autowired private MeterRegistry registry;
 
   @Autowired
   public TransformApplicationListener(Processor processor, ClientCache clientCache) {
@@ -35,6 +40,8 @@ public class TransformApplicationListener {
 
     String vehicleId;
     vehicleId = jsonPayload.get("VehicleId").toString();
+
+    registry.counter("custom.metrics.for.transform", "VehicleID", vehicleId).increment();
 
     String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
 

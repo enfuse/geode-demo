@@ -17,3 +17,7 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['dataflow.localhost:9393']
+    file_sd_configs:
+      - files:
+          - targets.json
+        refresh_interval: 30s

@@ -36,6 +36,11 @@ public class GeodeClientConfiguration {
 
   @Bean
   MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-    return registry -> registry.config().commonTags("application", "Geode Stream Processor");
+    return registry ->
+        registry
+            .config()
+            .commonTags("application_guid", "1")
+            .commonTags("application-name", "transform")
+            .commonTags("stream_name", "geode-demo-pipeline");
   }
 }
