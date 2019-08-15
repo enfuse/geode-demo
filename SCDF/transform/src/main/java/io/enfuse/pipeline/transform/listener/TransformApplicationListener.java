@@ -41,10 +41,12 @@ public class TransformApplicationListener {
     String vehicleId;
     vehicleId = jsonPayload.get("VehicleId").toString();
 
-    registry.counter("custom.metrics.for.transform", "VehicleID", vehicleId).increment();
+    registry.counter("custom.metrics.for.transform").increment();
 
+    registry
+        .timer("Geode.Speed.throughput", "GeodeSpeed.Tag", "Time")
+        .record(() -> System.out.println("timerTest"));
     String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
-
     Telemetry telemetry =
         new Telemetry.Builder()
             .withVehicleId(jsonPayload.get("VehicleId").toString())
