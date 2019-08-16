@@ -28,3 +28,4 @@ dist/
 nbdist/
 .nb-gradle/
 .vscode/
+/SCDF/transform/bin/
