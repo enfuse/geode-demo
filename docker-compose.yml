@@ -160,9 +160,14 @@ services:
             -d 'metadata-uri://root/.m2/repository/org/springframework/cloud/stream/app/http-source-kafka/2.1.0.RELEASE/http-source-kafka-2.1.0.RELEASE-metadata.jar' \
             -d 'force=true'
 
+        curl -H 'Accept: application/json' -X POST 'http://dataflow.localhost:9393/apps/source/file/2.1.0.RELEASE' -i \
+            -d 'uri=http://repo.spring.io/release/org/springframework/cloud/stream/app/file-source-kafka/2.1.0.RELEASE/file-source-kafka-2.1.0.RELEASE.jar' \
+            -d 'metadata-uri:http://repo.spring.io/release/org/springframework/cloud/stream/app/file-source-kafka/2.1.0.RELEASE/file-source-kafka-2.1.0.RELEASE-metadata.jar' \
+            -d 'force=true'
+
         curl -H 'Accept: application/json' -X POST 'http://dataflow.localhost:9393/apps/sink/log/2.1.1.RELEASE' -i \
-            -d 'uri=file://root/.m2/repository/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE.jar' \
-            -d 'metadata-uri://root/.m2/repository/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE-metadata.jar' \
+            -d 'uri=http://repo.spring.io/release/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE.jar' \
+            -d 'metadata-uri:http://repo.spring.io/release/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE-metadata.jar' \
             -d 'force=true'
 
 
