@@ -25,13 +25,14 @@ public class PostgresProcessorApplicationListener {
 
   private TelemetryRepository telemetryRepository;
 
-  @Autowired private MeterRegistry registry;
+  private MeterRegistry registry;
 
   @Autowired
   public PostgresProcessorApplicationListener(
-      Processor processor, TelemetryRepository telemetryRepository) {
+      Processor processor, TelemetryRepository telemetryRepository, MeterRegistry registry) {
     this.processor = processor;
     this.telemetryRepository = telemetryRepository;
+    this.registry = registry;
   }
 
   @StreamListener(Processor.INPUT)
@@ -42,10 +43,10 @@ public class PostgresProcessorApplicationListener {
     String vehicleId;
     vehicleId = jsonPayload.get("VehicleId").toString();
 
-    registry.counter("custom.metrics.for.transform").increment();
+    registry.counter("custom.metrics.for.postgres").increment();
 
     registry
-        .timer("Geode.Speed.throughput", "Geode.Speed.Tag", "Time")
+        .timer("Postgres.Speed.throughput", "Postgres.Speed.Tag", "Time")
         .record(() -> System.out.println("timerTest"));
     //    String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
     String vehicleValue = telemetryRepository.findOneByVehicleId(vehicleId).toString();

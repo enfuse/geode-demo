@@ -143,6 +143,13 @@
           "intervalFactor": 1,
           "legendFormat": "geode",
           "refId": "A"
+        },
+        {
+          "expr": "rate(Postgres_Speed_throughput_seconds_sum[10m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "postgres",
+          "refId": "B"
         }
       ],
       "thresholds": [],

@@ -172,7 +172,7 @@ services:
   skipper-server:
     image: springcloud/spring-cloud-skipper-server:2.0.3.RELEASE
     container_name: skipper
-    depends_on: [dns]
+    depends_on: [dns, postgres]
     hostname: skipper.localhost
     dns: [172.19.0.2]
     networks:
