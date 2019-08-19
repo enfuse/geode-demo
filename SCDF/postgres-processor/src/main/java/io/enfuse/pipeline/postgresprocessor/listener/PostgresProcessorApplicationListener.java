@@ -41,21 +41,22 @@ public class PostgresProcessorApplicationListener {
     logger.info("incoming payload " + jsonPayload.toString());
 
     String vehicleId;
+    final String[] vehicleValue = new String[1];
     vehicleId = jsonPayload.get("VehicleId").toString();
 
     registry.counter("custom.metrics.for.postgres").increment();
 
     registry
         .timer("Postgres.Speed.throughput", "Postgres.Speed.Tag", "Time")
-        .record(() -> System.out.println("timerTest"));
+        .record(() -> vehicleValue[0] = telemetryRepository.findOneByVehicleId(vehicleId).toString());
     //    String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
-    String vehicleValue = telemetryRepository.findOneByVehicleId(vehicleId).toString();
+    vehicleValue[0] = telemetryRepository.findOneByVehicleId(vehicleId).toString();
     Telemetry telemetry = new Telemetry();
     telemetry.setVehicleId(jsonPayload.get("VehicleId").toString());
     telemetry.setLatitude(jsonPayload.get("Latitude").toString());
     telemetry.setLongitude(jsonPayload.get("Longitude").toString());
     telemetry.setSpeed(jsonPayload.get("Speed").toString());
-    telemetry.setValue(vehicleValue);
+    telemetry.setValue(vehicleValue[0]);
 
     logger.info("publishing to kafka: " + telemetry.toString());
     processor.output().send(new GenericMessage<>(new JSONObject(telemetry).toString()));

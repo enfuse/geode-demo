@@ -41,22 +41,23 @@ public class GeodeProcessorApplicationListener {
     logger.info("incoming payload " + jsonPayload.toString());
 
     String vehicleId;
+    final String[] vehicleValue = new String[1];
     vehicleId = jsonPayload.get("VehicleId").toString();
 
     meterRegistry.counter("custom.metrics.for.transform").increment();
 
     meterRegistry
         .timer("Geode.Speed.throughput", "Geode.Speed.Tag", "Time")
-        .record(() -> System.out.println("timerTest"));
-    //    String vehicleValue = clientCache.getRegion("telemetryRegion").get(vehicleId).toString();
-    String vehicleValue = telemetryRepository.findById(vehicleId).toString();
+        .record(() -> vehicleValue[0] = telemetryRepository.findById(vehicleId).toString());
+
+    //    vehicleValue = telemetryRepository.findById(vehicleId).toString();
     Telemetry telemetry =
         new Telemetry.Builder()
             .withVehicleId(jsonPayload.get("VehicleId").toString())
             .withLatitude(jsonPayload.get("Latitude").toString())
             .withLongitude(jsonPayload.get("Longitude").toString())
             .withSpeed(jsonPayload.get("Speed").toString())
-            .withValue(vehicleValue)
+            .withValue(vehicleValue[0])
             .build();
 
     logger.info("publishing to kafka: " + telemetry.toString());
