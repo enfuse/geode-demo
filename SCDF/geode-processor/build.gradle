@@ -28,7 +28,7 @@ apply plugin: 'com.github.spotbugs'
 apply plugin: 'com.github.sherter.google-java-format'
 
 group = 'io.enfuse.pipeline'
-description = 'postgres-processor'
+description = 'geode-processor'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -59,6 +59,7 @@ googleJavaFormat {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation('org.springframework.cloud:spring-cloud-starter-config')
@@ -68,19 +69,15 @@ dependencies {
     implementation('io.micrometer:micrometer-registry-prometheus:latest.release')
 
 
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.geode:spring-geode-starter:1.1.0.M3')
     implementation('org.springframework.boot:spring-boot-configuration-processor')
-    runtimeOnly 'org.postgresql:postgresql'
-    runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
-
-    testImplementation 'com.h2database:h2:1.4.197'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
 }
 
 test.dependsOn(
-        tasks.googleJavaFormat,
-        tasks.verifyGoogleJavaFormat
+    tasks.googleJavaFormat,
+    tasks.verifyGoogleJavaFormat
 )
 
 
@@ -90,3 +87,10 @@ dependencyManagement {
     }
 }
 
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        exclude group: "com.jayway.jsonpath", module:"json-path"
+        exclude group: "org.skyscreamer", module:"jsonassert"
+    }
+}

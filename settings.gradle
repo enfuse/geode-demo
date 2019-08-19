@@ -1,4 +1,4 @@
 rootProject.name = 'scdf-geode-kafka-demo'
-include 'SCDF:transform'
+include 'SCDF:geode-processor'
 include 'SCDF:postgres-processor'
 

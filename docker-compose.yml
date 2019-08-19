@@ -151,10 +151,6 @@ services:
           sleep 1;
         done;
 
-        curl -H 'Accept: application/json' -X POST 'http://dataflow.localhost:9393/apps/processor/transform/0.0.1-SNAPSHOT' -i \
-            -d 'uri=file://root/.m2/repository/io/enfuse/pipeline/transform/0.0.1-SNAPSHOT/transform-0.0.1-SNAPSHOT.jar' \
-            -d 'force=true'
-
         curl -H 'Accept: application/json' -X POST 'http://dataflow.localhost:9393/apps/source/http/2.1.0.RELEASE' -i \
             -d 'uri=file://root/.m2/repository/org/springframework/cloud/stream/app/http-source-kafka/2.1.0.RELEASE/http-source-kafka-2.1.0.RELEASE.jar' \
             -d 'metadata-uri://root/.m2/repository/org/springframework/cloud/stream/app/http-source-kafka/2.1.0.RELEASE/http-source-kafka-2.1.0.RELEASE-metadata.jar' \
