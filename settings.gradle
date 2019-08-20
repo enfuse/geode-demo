@@ -1,6 +1,4 @@
 rootProject.name = 'scdf-geode-kafka-demo'
-include 'SCDF:source'
-include 'SCDF:transform'
-include 'SCDF:geode-sink'
-include 'SCDF:gcs-source'
+include 'SCDF:geode-processor'
+include 'SCDF:postgres-processor'
 

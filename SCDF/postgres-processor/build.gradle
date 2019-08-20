@@ -1,0 +1,92 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+        confluentVersion = '4.1.0'
+        spotbugsPluginVersion = '1.6.5'
+        spotbugsVersion = '3.1.9'
+        sherterGoogleJavaFormatPlugin = '0.8'
+        googleJavaFormatVersion = '1.7'
+    }
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spotbugsPluginVersion}")
+        classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:${sherterGoogleJavaFormatPlugin}")
+
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'com.github.sherter.google-java-format'
+
+group = 'io.enfuse.pipeline'
+description = 'postgres-processor'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url "http://packages.confluent.io/maven/" }
+    maven { url 'https://repo.spring.io/milestone' }
+    mavenCentral()
+}
+
+ext {
+    springCloudVersion = 'Greenwich.SR2'
+}
+
+spotbugs {
+    toolVersion = spotbugsVersion
+    ignoreFailures = false
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+googleJavaFormat {
+    toolVersion = googleJavaFormatVersion
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.cloud:spring-cloud-starter-config')
+    implementation('org.springframework.cloud:spring-cloud-stream')
+    implementation('org.springframework.cloud:spring-cloud-stream-binder-kafka')
+    implementation('org.json:json:20180813')
+    implementation('io.micrometer:micrometer-registry-prometheus:latest.release')
+
+
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-configuration-processor')
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly('org.mariadb.jdbc:mariadb-java-client')
+
+    testImplementation 'com.h2database:h2:1.4.197'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
+}
+
+test.dependsOn(
+        tasks.googleJavaFormat,
+        tasks.verifyGoogleJavaFormat
+)
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+

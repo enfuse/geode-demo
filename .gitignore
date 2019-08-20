@@ -3,6 +3,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 .*
 **/out/
+**/bin/
 **/.DS_Store
 version-file.txt
 
@@ -28,3 +29,5 @@ dist/
 nbdist/
 .nb-gradle/
 .vscode/
+
+
