@@ -4,9 +4,11 @@ import io.enfuse.pipeline.geodeprocessor.domain.Telemetry;
 import io.enfuse.pipeline.geodeprocessor.domain.TelemetryRepository;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -14,12 +16,13 @@ import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
+
 @Component
 @EnableBinding(Processor.class)
 @Timed
 public class GeodeProcessorApplicationListener {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger logger = LogManager.getLogger(GeodeProcessorApplicationListener.class);
 
   private Processor processor;
 
@@ -38,7 +41,7 @@ public class GeodeProcessorApplicationListener {
   @StreamListener(Processor.INPUT)
   public void handle(GenericMessage<String> incomingMessage) {
     JSONObject jsonPayload = new JSONObject(incomingMessage.getPayload());
-    logger.info("incoming payload " + jsonPayload.toString());
+    logger.debug("incoming payload " + jsonPayload.toString());
 
     String vehicleId;
     final String[] vehicleValue = new String[1];
@@ -60,7 +63,7 @@ public class GeodeProcessorApplicationListener {
             .withValue(vehicleValue[0])
             .build();
 
-    logger.info("publishing to kafka: " + telemetry.toString());
+    logger.debug("publishing to kafka: " + telemetry.toString());
     processor.output().send(new GenericMessage<>(new JSONObject(telemetry).toString()));
   }
 }

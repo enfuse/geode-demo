@@ -1,4 +1,14 @@
 spring:
   application:
     name: geode-processor
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 8082
 

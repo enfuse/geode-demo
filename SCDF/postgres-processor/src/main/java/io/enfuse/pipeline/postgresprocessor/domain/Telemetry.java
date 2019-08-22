@@ -5,7 +5,7 @@ import javax.persistence.*;
 //  truck’s identifier and its lat and long.
 
 @Entity
-@Table(name = "telemetry", schema = "telemetry")
+@Table(name = "telemetry")
 public class Telemetry {
   // VEH_VehicleId
   @Id

@@ -48,7 +48,6 @@ public class GeodeProcessorApplicationListenerTest {
   @Ignore
   public void handle_givenPayloadJsonBlob_returnsPayloadWithTransmissionData() {
     given(mockProcessor.output()).willReturn(mockMessageChannel);
-    when(mockClientCache.getRegion("telemetryRegion")).thenReturn(mockRegion);
 
     Telemetry telemetry = new Telemetry.Builder().withValue("34464198 value").build();
 
