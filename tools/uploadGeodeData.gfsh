@@ -1,3 +1,0 @@
-connect --locator=localhost[10334]
-import data --region=telemetryRegion --file=/tmp/100k.gfd --member=server.localhost
-exit
