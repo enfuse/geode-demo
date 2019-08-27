@@ -1,3 +1,4 @@
 connect --locator=locator.localhost[10334] --jmx-manager=locator.localhost[1099]
 import data --region=telemetryRegion --file=/docker/geode/data/100k.gfd --member=server.localhost
+rebalance
 exit
