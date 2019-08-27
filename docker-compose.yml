@@ -113,7 +113,7 @@ services:
       - "8081:8081"
 
   dataflow-server:
-    image: springcloud/spring-cloud-dataflow-server:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-server:2.2.0.RELEASE
     container_name: dataflow
     hostname: dataflow.localhost
     dns: [172.19.0.2]
@@ -175,7 +175,7 @@ services:
 
 
   skipper-server:
-    image: springcloud/spring-cloud-skipper-server:2.0.3.RELEASE
+    image: springcloud/spring-cloud-skipper-server:2.1.0.RELEASE
     container_name: skipper
     depends_on: [dns, postgres]
     hostname: skipper.localhost
@@ -200,7 +200,7 @@ services:
   # Grafana is configured with the Prometheus datasource.
   # Use `docker exec -it prometheus /bin/sh` to logging in the container
   prometheus:
-    image: springcloud/spring-cloud-dataflow-prometheus-local:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-prometheus-local:2.2.0.RELEASE
     container_name: prometheus
     networks:
       default:
@@ -233,7 +233,7 @@ services:
 
 
   grafana:
-    image: springcloud/spring-cloud-dataflow-grafana-prometheus:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-grafana-prometheus:2.2.0.RELEASE
     container_name: grafana
     depends_on: [dns, prometheus]
     dns: [172.19.0.2]
