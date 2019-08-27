@@ -2,8 +2,9 @@ package io.enfuse.pipeline.geodeprocessor.listener;
 
 import io.enfuse.pipeline.geodeprocessor.domain.Telemetry;
 import io.enfuse.pipeline.geodeprocessor.domain.TelemetryRepository;
-import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import java.util.concurrent.TimeUnit;
 import org.apache.geode.pdx.internal.PdxInstanceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,8 +16,6 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 @EnableBinding(Processor.class)
 public class GeodeProcessorApplicationListener {
@@ -24,22 +23,24 @@ public class GeodeProcessorApplicationListener {
   private static final Logger logger =
       LogManager.getLogger(GeodeProcessorApplicationListener.class);
 
-
   private TelemetryRepository telemetryRepository;
 
   private MeterRegistry meterRegistry;
+  private final Timer geodeThroughputTimer;
 
   @Autowired
   public GeodeProcessorApplicationListener(
       TelemetryRepository telemetryRepository, MeterRegistry meterRegistry) {
     this.telemetryRepository = telemetryRepository;
     this.meterRegistry = meterRegistry;
+    this.geodeThroughputTimer =
+        meterRegistry.timer("Geode.Speed.throughput", "Geode.Speed.Tag", "Time");
   }
 
   @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
   public GenericMessage<Telemetry> handle(GenericMessage<String> incomingMessage) {
     JSONObject jsonPayload = new JSONObject(incomingMessage.getPayload());
-    logger.debug("incoming payload " + jsonPayload.toString());
+    logger.info("incoming payload " + jsonPayload.toString());
 
     String vehicleId;
     vehicleId = jsonPayload.get("VehicleId").toString();
@@ -47,7 +48,6 @@ public class GeodeProcessorApplicationListener {
     meterRegistry.counter("custom.metrics.for.transform").increment();
 
     Telemetry vehicleValue = lookup(vehicleId);
-
 
     //    vehicleValue = telemetryRepository.findById(vehicleId).toString();
     Telemetry telemetry =
@@ -63,10 +63,13 @@ public class GeodeProcessorApplicationListener {
     return new GenericMessage<>(telemetry);
   }
 
-  @Timed(value = "Geode.speed.throughput", extraTags = {"Geode.Speed.Tag","Time"})
-  protected Telemetry lookup(String key){
+  public Telemetry lookup(String key) {
+    long start = System.currentTimeMillis();
 
-   return convertFromPdx(telemetryRepository.findById(key).orElse(new Telemetry.Builder().build()));
+    Telemetry telemetry =
+        convertFromPdx(telemetryRepository.findById(key).orElse(new Telemetry.Builder().build()));
+    geodeThroughputTimer.record(System.currentTimeMillis() - start, TimeUnit.MILLISECONDS);
+    return telemetry;
   }
 
   private static Telemetry convertFromPdx(Object obj) {
