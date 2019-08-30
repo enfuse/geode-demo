@@ -13,7 +13,6 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:${sherterGoogleJavaFormatPlugin}")
         classpath 'com.bmuschko:gradle-docker-plugin:5.0.0'
-        classpath "gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:1.5.1"
     }
 }
 
@@ -25,7 +24,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.github.sherter.google-java-format'
 apply plugin: "com.bmuschko.docker-spring-boot-application"
-apply plugin: 'com.google.cloud.tools.jib'
 
 group = 'io.enfuse.pipeline'
 description = 'geode-processor'
@@ -91,14 +89,7 @@ docker {
         jvmArgs = ['-Xmx2048m']
     }
 }
-jib {
-    from {
-        image = 'springcloud/openjdk'
-    }
-    to {
-        image = "tbenfuse/${description}"
-    }
-}
+
 
 
 
