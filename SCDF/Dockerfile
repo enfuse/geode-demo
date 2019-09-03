@@ -1,3 +1,0 @@
-FROM springcloud/spring-cloud-skipper-server:2.1.0.RELEASE
-COPY ./geode-processor/build/libs/geode-processor-0.0.1-SNAPSHOT.jar /root/.m2/repository/io/enfuse/pipeline/geode-processor/0.0.1-SNAPSHOT/geode-processor-0.0.1-SNAPSHOT.jar
-COPY ./postgres-processor/build/libs/postgres-processor-0.0.1-SNAPSHOT.jar /root/.m2/repository/io/enfuse/pipeline/postgres-processor/0.0.1-SNAPSHOT/postgres-processor-0.0.1-SNAPSHOT.jar
