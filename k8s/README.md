@@ -1,6 +1,6 @@
 # Kubernetes Setup
 
-## search for 'tbenfuse' in gradlew and k8s yaml and replace with your username
+## WIP: currently using private docker hub registry, search for 'tbenfuse' in project and k8s yaml and replace with your  username
 
 ## Start minikube
 ```shell script
@@ -11,7 +11,7 @@ minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
 ## build & push geode-processor docker image
 ``` 
 ./SCDF/geode-processor/gradlew dockerBuildImage
-docker push username/geode-processor:latest
+docker push [username]/geode-processor:latest
 ```
 
 ## deploy kafka, geode, spring cloud stream apps
@@ -19,11 +19,22 @@ docker push username/geode-processor:latest
 ./setup.sh
 ```
 
-
 ## build application pods
 ```
 kubectl apply -f k8s/scdf-geode-stream.yml
 ```
+
+## install geode-processor helm chart
+```shell script
+helm install --name geode-processor ./geode-processor
+```
+
+## delete geode-processor helm chart
+```shell script
+helm del --purge geode-processor
+```
+
+
 
 ## delete pods
 ```
