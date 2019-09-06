@@ -84,7 +84,8 @@ gfsh > connect --locator=geode-locator-0[10334] --jmx-manager=geode-locator-0[10
 gfsh > create region --name=telemetryRegion --type=REPLICATE
 ```
 
-import data
+$import data
+file has to be on the member you're pointing to, in this case, /tmp/1mil.gfd is on geode-server-0
 ```bash
 gfsh > import data --region=telemetryRegion --file=/tmp/1mil.gfd --member=geode-server-0
 
@@ -105,5 +106,43 @@ sh into file-source container and make /tmp/foo/ directory
 copy file into file-source
 `kubectl cp 1mil.txt file-source:/tmp/foo/1mil.txt`
 
+#minikube dashboard
+```bash
+minikube dashboard
+```
 
 
+#taking down just prometheus
+```bash
+kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
+kubectl delete all,cm,svc -l app=prometheus
+```
+
+
+
+
+kubectl apply -f src/kubernetes/mysql/
+
+kubectl apply -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
+kubectl apply -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
+kubectl apply -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
+
+kubectl apply -f src/kubernetes/prometheus/prometheus-configmap.yaml
+kubectl apply -f src/kubernetes/prometheus/prometheus-deployment.yaml
+kubectl apply -f src/kubernetes/prometheus/prometheus-service.yaml
+
+kubectl apply -f src/kubernetes/grafana/
+
+kubectl apply -f src/kubernetes/server/server-roles.yaml
+kubectl apply -f src/kubernetes/server/server-rolebinding.yaml
+kubectl apply -f src/kubernetes/server/service-account.yaml
+
+kubectl apply -f src/kubernetes/skipper/skipper-config-kafka.yaml
+
+kubectl apply -f src/kubernetes/skipper/skipper-deployment.yaml
+kubectl apply -f src/kubernetes/skipper/skipper-svc.yaml
+
+kubectl apply -f src/kubernetes/server/server-config.yaml
+
+kubectl apply -f src/kubernetes/server/server-svc.yaml
+kubectl apply -f src/kubernetes/server/server-deployment.yaml
