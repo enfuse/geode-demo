@@ -117,32 +117,3 @@ minikube dashboard
 kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
 kubectl delete all,cm,svc -l app=prometheus
 ```
-
-
-
-
-kubectl apply -f src/kubernetes/mysql/
-
-kubectl apply -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
-kubectl apply -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
-kubectl apply -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
-
-kubectl apply -f src/kubernetes/prometheus/prometheus-configmap.yaml
-kubectl apply -f src/kubernetes/prometheus/prometheus-deployment.yaml
-kubectl apply -f src/kubernetes/prometheus/prometheus-service.yaml
-
-kubectl apply -f src/kubernetes/grafana/
-
-kubectl apply -f src/kubernetes/server/server-roles.yaml
-kubectl apply -f src/kubernetes/server/server-rolebinding.yaml
-kubectl apply -f src/kubernetes/server/service-account.yaml
-
-kubectl apply -f src/kubernetes/skipper/skipper-config-kafka.yaml
-
-kubectl apply -f src/kubernetes/skipper/skipper-deployment.yaml
-kubectl apply -f src/kubernetes/skipper/skipper-svc.yaml
-
-kubectl apply -f src/kubernetes/server/server-config.yaml
-
-kubectl apply -f src/kubernetes/server/server-svc.yaml
-kubectl apply -f src/kubernetes/server/server-deployment.yaml

@@ -9,6 +9,7 @@ spec:
     - name: scs-file-source
       image: springcloudstream/file-source-kafka:latest
       ports:
+        - containerPort: 8080
         - containerPort: 80
           protocol: TCP
       env:
@@ -31,7 +32,8 @@ metadata:
 spec:
   containers:
     - name: geode-processor
-      image: tbenfuse/geode-processor
+      image: jhenfuseio/geode-processor
+      imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 80
           protocol: TCP
@@ -47,55 +49,3 @@ spec:
         - name: SERVER_PORT
           value: '80'
   restartPolicy: Always
-#---
-#kind: Pod
-#apiVersion: v1
-#metadata:
-#  name: usage-cost-processor
-#  labels:
-#    app: usage-cost-stream
-#spec:
-#  containers:
-#    - name: usage-cost-processor
-#      image: springcloudstream/usage-cost-processor-kafka:0.0.1-SNAPSHOT
-#      ports:
-#        - containerPort: 80
-#          protocol: TCP
-#      env:
-#        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-#          value: kafka
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-#          value: usage-cost-stream
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-#          value: user-details
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-#          value: user-cost
-#        - name: SERVER_PORT
-#          value: '80'
-#  restartPolicy: Always
-#
-#---
-#kind: Pod
-#apiVersion: v1
-#metadata:
-#  name: usage-cost-logger
-#  labels:
-#    app: usage-cost-stream
-#spec:
-#  containers:
-#    - name: usage-cost-logger
-#      image: springcloudstream/usage-cost-logger-kafka:0.0.1-SNAPSHOT
-#      ports:
-#        - containerPort: 80
-#          protocol: TCP
-#      env:
-#        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-#          value: kafka
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-#          value: usage-cost-stream
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-#          value: user-cost
-#        - name: SERVER_PORT
-#          value: '80'
-#  restartPolicy: Always
-#
