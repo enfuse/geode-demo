@@ -57,14 +57,18 @@ services:
     expose:
       - "8080"
       - "40404"
+      - "40405"
+      - "40406"
       - "1099"
     ports:
       - "40404:40404"
+      - "40405:40405"
+      - "40406:40406"
       - "7071:7070"
     volumes:
       - ./docker/:/docker/
-    command: /docker/geode/startServer.sh --server-port=40404 --max-heap=1G
-
+    #command: /docker/geode/startServer.sh --max-heap=1G
+    command: /docker/geode/startServer.sh --max-heap=1G
   geode-config:
     image: alpine
     depends_on: [dns, server, locator]
@@ -109,7 +113,7 @@ services:
       - "8081:8081"
 
   dataflow-server:
-    image: springcloud/spring-cloud-dataflow-server:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-server:2.2.0.RELEASE
     container_name: dataflow
     hostname: dataflow.localhost
     dns: [172.19.0.2]
@@ -127,7 +131,7 @@ services:
       - spring.cloud.skipper.client.serverUri=http://skipper.localhost:7577/api
       - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.streamapp.security.enabled=false
-      - spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=prometheus,info,health
+      - spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=*
       - spring.cloud.dataflow.grafana-info.url=http://localhost:3000
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/dataflow
       - SPRING_DATASOURCE_USERNAME=root
@@ -171,7 +175,7 @@ services:
 
 
   skipper-server:
-    image: springcloud/spring-cloud-skipper-server:2.0.3.RELEASE
+    image: springcloud/spring-cloud-skipper-server:2.1.0.RELEASE
     container_name: skipper
     depends_on: [dns, postgres]
     hostname: skipper.localhost
@@ -192,10 +196,11 @@ services:
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.mariadb.jdbc.Driver
     volumes:
       - '~/.m2:/root/.m2'
+      - '~/scdf-logs:/tmp'
   # Grafana is configured with the Prometheus datasource.
   # Use `docker exec -it prometheus /bin/sh` to logging in the container
   prometheus:
-    image: springcloud/spring-cloud-dataflow-prometheus-local:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-prometheus-local:2.2.0.RELEASE
     container_name: prometheus
     networks:
       default:
@@ -223,12 +228,12 @@ services:
       - metrics.prometheus.target.cron=0/20 * * * * *
       - metrics.prometheus.target.filePath=/tmp/scdf-targets/targets.json
       - metrics.prometheus.target.discoveryUrl=http://dataflow-server:9393/runtime/apps
-      - metrics.prometheus.target.overrideIp=skipper-server
+      - metrics.prometheus.target.overrideIp=skipper.localhost
       - server.port=8181
 
 
   grafana:
-    image: springcloud/spring-cloud-dataflow-grafana-prometheus:2.1.2.RELEASE
+    image: springcloud/spring-cloud-dataflow-grafana-prometheus:2.2.0.RELEASE
     container_name: grafana
     depends_on: [dns, prometheus]
     dns: [172.19.0.2]

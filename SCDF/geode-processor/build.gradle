@@ -1,9 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.6.RELEASE'
-        confluentVersion = '4.1.0'
-        spotbugsPluginVersion = '1.6.5'
-        spotbugsVersion = '3.1.9'
+        springBootVersion = '2.1.7.RELEASE'
         sherterGoogleJavaFormatPlugin = '0.8'
         googleJavaFormatVersion = '1.7'
     }
@@ -13,8 +10,8 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spotbugsPluginVersion}")
         classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:${sherterGoogleJavaFormatPlugin}")
+        classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.22.1"
 
     }
 }
@@ -22,15 +19,21 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.github.spotbugs'
 apply plugin: 'com.github.sherter.google-java-format'
+apply plugin: 'com.palantir.docker'
 
 group = 'io.enfuse.pipeline'
 description = 'geode-processor'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+bootJar {
+    archiveName = 'gs-spring-boot-docker'
+    version =  '0.1.0'
+}
 
 repositories {
     maven { url "http://packages.confluent.io/maven/" }
@@ -42,34 +45,20 @@ ext {
     springCloudVersion = 'Greenwich.SR2'
 }
 
-spotbugs {
-    toolVersion = spotbugsVersion
-    ignoreFailures = false
-}
-
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
 googleJavaFormat {
     toolVersion = googleJavaFormatVersion
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
-    implementation('org.springframework.cloud:spring-cloud-starter-config')
     implementation('org.springframework.cloud:spring-cloud-stream')
     implementation('org.springframework.cloud:spring-cloud-stream-binder-kafka')
     implementation('org.json:json:20180813')
     implementation('io.micrometer:micrometer-registry-prometheus:latest.release')
 
-
     implementation('org.springframework.geode:spring-geode-starter:1.1.0.M3')
+    implementation('org.springframework.geode:spring-geode-starter-actuator:1.1.0.RC1')
     implementation('org.springframework.boot:spring-boot-configuration-processor')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
@@ -93,4 +82,15 @@ configurations {
         exclude group: "com.jayway.jsonpath", module:"json-path"
         exclude group: "org.skyscreamer", module:"jsonassert"
     }
+}
+
+task unpack(type: Copy) {
+    dependsOn bootJar
+    from(zipTree(tasks.bootJar.outputs.files.singleFile))
+    into("build/libs")
+}
+docker {
+    name "${project.group}/${bootJar.baseName}"
+    copySpec.from(tasks.unpack.outputs).into("dependency")
+    buildArgs(['DEPENDENCY': "dependency"])
 }
