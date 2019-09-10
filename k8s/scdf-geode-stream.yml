@@ -1,0 +1,51 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: file-source
+  labels:
+    app: file-source
+spec:
+  containers:
+    - name: scs-file-source
+      image: springcloudstream/file-source-kafka:latest
+      ports:
+        - containerPort: 8080
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SERVER_PORT
+          value: '80'
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  file-source
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-processor
+  labels:
+    app: geode-processor
+spec:
+  containers:
+    - name: geode-processor
+      image: jhenfuseio/geode-processor
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-processor
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: file-source
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always

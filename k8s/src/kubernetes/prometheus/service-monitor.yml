@@ -1,0 +1,32 @@
+# Service targeting gitlab instances
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab-metrics
+  labels:
+    app: gitlab-runner-gitlab-runner
+spec:
+  ports:
+    - name: metrics # expose metrics port
+      port: 9252 # defined in gitlab chart
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: gitlab-runner-gitlab-runner # target gitlab pods
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gitlab-metrics-servicemonitor
+  # Change this to the namespace the Prometheus instance is running in
+  # namespace: default
+  labels:
+    app: gitlab-runner-gitlab-runner
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: gitlab-runner-gitlab-runner # target gitlab service
+  endpoints:
+    - port: metrics
+      interval: 15s
