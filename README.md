@@ -33,20 +33,11 @@ https://github.com/derailed/k9s
 ```
 eval $(minikube docker-env)
 ```
+
 # deploy kafka & geode
+Navigate to the k8s folder
 ```
-./k8s/setup.sh
-```
-
-# build docker image & push to Dockerhub 
-```
-./SCDF/geode-processor/gradlew dockerBuildImage
-```
-push to dockerhub (we need to figure out how to do this automatically)
-
-# build application pods
-```
-kubectl apply -f k8s/scdf-geode-stream.yml
+./setup.sh
 ```
 
 # explore k8s cluster
@@ -106,17 +97,5 @@ If it is at 100590 rows, there is a 5mb limit on the terminal that needs to be r
 #Deploying file to file-source
 sh into file-source container and make /tmp/foo/ directory
 copy file into file-source
-`kubectl cp telemetry.txt geode-file-source:/tmp/foo/1.txt`
-`kubectl cp telemetry.txt postgres-file-source:/tmp/foo/1.txt`
-
-#minikube dashboard
-```bash
-minikube dashboard
-```
-
-
-#taking down just prometheus
-```bash
-kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
-kubectl delete all,cm,svc -l app=prometheus
-```
+`kubectl cp geode/data/telemetry.txt geode-file-source:/tmp/foo/1.txt`
+`kubectl cp geode/data/ telemetry.txt postgres-file-source:/tmp/foo/1.txt`

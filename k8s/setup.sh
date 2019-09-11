@@ -31,3 +31,5 @@ kubectl apply -f src/kubernetes/prometheus/prometheus-service.yaml
 
 #Deploy Grafana
 kubectl apply -f src/kubernetes/grafana/
+
+kubectl cp geode/data/1mil.gfd geode-server-0:/tmp/1mil.gfd
