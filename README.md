@@ -68,7 +68,7 @@ minikube delete
 #Create and Populate the Geode nodes
 Copy over database snapshot
 ```bash
-kubectl cp 1mil.gfd geode-locator-0:/tmp/1mil.gfd
+kubectl cp 1mil.gfd geode-server-0:/tmp/1mil.gfd
 ```
 
 connect to geode-locator-0
@@ -100,11 +100,13 @@ Quick Query check to see how many entries in region
 ```bash
 gfsh > query --query='select count(*) from /telemetryRegion'
 ```
+Result should be 1 million rows.
+If it is at 100590 rows, there is a 5mb limit on the terminal that needs to be removed.
 
 #Deploying file to file-source
 sh into file-source container and make /tmp/foo/ directory
 copy file into file-source
-`kubectl cp 1mil.txt file-source:/tmp/foo/1mil.txt`
+`kubectl cp telemetry.txt file-source:/tmp/foo/1.txt`
 
 #minikube dashboard
 ```bash

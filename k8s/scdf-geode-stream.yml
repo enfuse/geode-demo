@@ -21,6 +21,10 @@ spec:
           value: geode-processor-stream
         - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
           value:  file-source
+        - name: file.directory
+          value: /tmp/foo/
+        - name: file.consumer.mode
+          value: lines
   restartPolicy: Always
 ---
 kind: Pod
@@ -48,4 +52,39 @@ spec:
           value: file-source
         - name: SERVER_PORT
           value: '80'
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: postgres-processor
+  labels:
+    app: postgres-processor
+spec:
+  containers:
+    - name: postgres-processor
+      image: jhenfuseio/postgres-processor
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-processor
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: file-source
+        - name: SERVER_PORT
+          value: '80'
+        - name: spring.datasource.driver-class-name
+          value: org.postgresql.Driver
+        - name: spring.datasource.password
+          value: app
+        - name: spring.datasource.url
+          value: jdbc:postgresql://postgres:5432/app
+        - name: spring.datasource.username
+          value: app
   restartPolicy: Always
