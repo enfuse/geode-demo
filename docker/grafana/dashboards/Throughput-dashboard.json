@@ -21,15 +21,13 @@
     {
       "cacheTimeout": null,
       "colorBackground": false,
-      "colorPostfix": false,
-      "colorPrefix": false,
-      "colorValue": true,
+      "colorValue": false,
       "colors": [
-        "#447ebc",
-        "#629e51",
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "description": "",
+      "datasource": "ScdfPrometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -39,8 +37,8 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 3,
-        "w": 4,
+        "h": 8,
+        "w": 5,
         "x": 0,
         "y": 0
       },
@@ -61,6 +59,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -78,19 +77,20 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "",
+      "tableColumn": "__name__",
       "targets": [
         {
-          "expr": "custom_metrics_for_transform_total",
+          "expr": "( Geode_Speed_throughput_seconds_count)",
           "format": "time_series",
+          "instant": true,
           "intervalFactor": 1,
-          "legendFormat": "",
           "refId": "A"
         }
       ],
       "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
       "title": "Throughput",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "120%",
       "valueMaps": [
@@ -100,18 +100,19 @@
           "value": "null"
         }
       ],
-      "valueName": "current"
+      "valueName": "avg"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "ScdfPrometheus",
       "fill": 1,
       "gridPos": {
-        "h": 12,
-        "w": 20,
-        "x": 4,
+        "h": 14,
+        "w": 19,
+        "x": 5,
         "y": 0
       },
       "id": 2,
@@ -128,8 +129,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
-      "pointradius": 5,
+      "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
@@ -138,17 +140,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(Geode_Speed_throughput_seconds_sum[10m])",
+          "expr": "Geode_Speed_throughput_seconds_count",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "geode",
+          "legendFormat": "Geode",
           "refId": "A"
         },
         {
-          "expr": "rate(Postgres_Speed_throughput_seconds_sum[10m])",
+          "expr": "Postgres_Speed_throughput_seconds_count",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "postgres",
+          "legendFormat": "Postgres",
           "refId": "B"
         }
       ],
@@ -156,7 +158,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Throughput",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -194,7 +196,8 @@
       }
     }
   ],
-  "schemaVersion": 16,
+  "refresh": false,
+  "schemaVersion": 18,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -231,6 +234,7 @@
   },
   "timezone": "",
   "title": "Geode Vs Postgres Dashboard",
-  "uid": "CZkM02dZz",
-  "version": 1
+  "uid": "YFEKX-5Wz",
+  "version": 4
 }
+

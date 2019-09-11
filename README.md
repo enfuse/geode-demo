@@ -35,7 +35,7 @@ eval $(minikube docker-env)
 ```
 # deploy kafka & geode
 ```
-./k8s/scdf-geode-stream.setup.sh
+./k8s/setup.sh
 ```
 
 # build docker image & push to Dockerhub 
@@ -106,7 +106,8 @@ If it is at 100590 rows, there is a 5mb limit on the terminal that needs to be r
 #Deploying file to file-source
 sh into file-source container and make /tmp/foo/ directory
 copy file into file-source
-`kubectl cp telemetry.txt file-source:/tmp/foo/1.txt`
+`kubectl cp telemetry.txt geode-file-source:/tmp/foo/1.txt`
+`kubectl cp telemetry.txt postgres-file-source:/tmp/foo/1.txt`
 
 #minikube dashboard
 ```bash

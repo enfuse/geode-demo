@@ -1,9 +1,9 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: file-source
+  name: geode-file-source
   labels:
-    app: file-source
+    app: geode-file-source
 spec:
   containers:
     - name: scs-file-source
@@ -20,7 +20,36 @@ spec:
         - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
           value: geode-processor-stream
         - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  file-source
+          value:  geode-file-source
+        - name: file.directory
+          value: /tmp/foo/
+        - name: file.consumer.mode
+          value: lines
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: postgres-file-source
+  labels:
+    app: postgres-file-source
+spec:
+  containers:
+    - name: scs-file-source
+      image: springcloudstream/file-source-kafka:latest
+      ports:
+        - containerPort: 8080
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SERVER_PORT
+          value: '80'
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: postgres-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  postgres-file-source
         - name: file.directory
           value: /tmp/foo/
         - name: file.consumer.mode
@@ -49,7 +78,7 @@ spec:
         - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
           value:  geode-processor
         - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: file-source
+          value: geode-file-source
         - name: SERVER_PORT
           value: '80'
   restartPolicy: Always
@@ -72,11 +101,11 @@ spec:
         - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
           value: kafka
         - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
+          value: postgres-processor-stream
         - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
+          value:  postgres-processor
         - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: file-source
+          value: postgres-file-source
         - name: SERVER_PORT
           value: '80'
         - name: spring.datasource.driver-class-name
@@ -87,4 +116,10 @@ spec:
           value: jdbc:postgresql://postgres:5432/app
         - name: spring.datasource.username
           value: app
+        - name: debug
+          value: 'true'
+        - name: logging.file
+          value: /home/spring-boot.log
+        - name: logging.file.max-size
+          value: 100MB
   restartPolicy: Always
