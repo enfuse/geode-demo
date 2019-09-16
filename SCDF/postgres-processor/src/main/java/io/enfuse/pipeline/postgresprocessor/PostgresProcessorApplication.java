@@ -14,16 +14,16 @@ public class PostgresProcessorApplication {
     SpringApplication.run(PostgresProcessorApplication.class, args);
   }
 
-  @Bean
-  public CommandLineRunner demoData(TelemetryRepository telemetryRepository) {
-    return args -> {
-      for (int i = 1; i < 10000; i++) {
-        Telemetry telemetry = new Telemetry();
-        telemetry.setVehicleId(String.valueOf(i));
-        telemetry.setValue("New Value " + i);
-
-        telemetryRepository.save(telemetry);
-      }
-    };
-  }
+//  @Bean
+//  public CommandLineRunner demoData(TelemetryRepository telemetryRepository) {
+//    return args -> {
+//      for (int i = 1; i < 10000; i++) {
+//        Telemetry telemetry = new Telemetry();
+//        telemetry.setVehicleId(String.valueOf(i));
+//        telemetry.setValue("New Value " + i);
+//
+//        telemetryRepository.save(telemetry);
+//      }
+//    };
+//  }
 }

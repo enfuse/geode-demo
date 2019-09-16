@@ -30,35 +30,6 @@ spec:
 kind: Pod
 apiVersion: v1
 metadata:
-  name: postgres-file-source
-  labels:
-    app: postgres-file-source
-spec:
-  containers:
-    - name: scs-file-source
-      image: springcloudstream/file-source-kafka:latest
-      ports:
-        - containerPort: 8080
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SERVER_PORT
-          value: '80'
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: postgres-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  postgres-file-source
-        - name: file.directory
-          value: /tmp/foo/
-        - name: file.consumer.mode
-          value: lines
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
   name: geode-processor
   labels:
     app: geode-processor
@@ -86,6 +57,36 @@ spec:
 kind: Pod
 apiVersion: v1
 metadata:
+  name: postgres-file-source
+  labels:
+    app: postgres-file-source
+spec:
+  containers:
+    - name: scs-file-source
+      image: springcloudstream/file-source-kafka:latest
+      ports:
+        - containerPort: 8080
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SERVER_PORT
+          value: '80'
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: postgres-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  postgres-file-source
+        - name: file.directory
+          value: /tmp/foo/
+        - name: file.consumer.mode
+          value: lines
+  restartPolicy: Always
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
   name: postgres-processor
   labels:
     app: postgres-processor
@@ -93,7 +94,7 @@ spec:
   containers:
     - name: postgres-processor
       image: jhenfuseio/postgres-processor
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       ports:
         - containerPort: 80
           protocol: TCP

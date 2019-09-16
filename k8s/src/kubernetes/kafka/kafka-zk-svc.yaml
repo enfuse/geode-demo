@@ -7,15 +7,15 @@ metadata:
     component: kafka-zk
 spec:
   ports:
-  - name: client
-    port: 2181
-    protocol: TCP
-  - name: follower
-    port: 2888
-    protocol: TCP
-  - name: leader
-    port: 3888
-    protocol: TCP
+    - name: client
+      port: 2181
+      protocol: TCP
+    - name: follower
+      port: 2888
+      protocol: TCP
+    - name: leader
+      port: 3888
+      protocol: TCP
   selector:
     app: kafka-zk
     component: kafka-zk
