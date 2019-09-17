@@ -22,7 +22,7 @@ spec:
         - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
           value:  geode-file-source
         - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
-          value: "4"
+          value: "8"
         - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
           value: "true"
         - name: file.directory
@@ -121,6 +121,114 @@ metadata:
 spec:
   containers:
     - name: geode-processor-3
+      image: jhenfuseio/geode-processor
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-processor
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: geode-file-source
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-processor-4
+  labels:
+    app: geode-processor-4
+spec:
+  containers:
+    - name: geode-processor-4
+      image: jhenfuseio/geode-processor
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-processor
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: geode-file-source
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-processor-5
+  labels:
+    app: geode-processor-5
+spec:
+  containers:
+    - name: geode-processor-5
+      image: jhenfuseio/geode-processor
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-processor
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: geode-file-source
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-processor-6
+  labels:
+    app: geode-processor-6
+spec:
+  containers:
+    - name: geode-processor-6
+      image: jhenfuseio/geode-processor
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-processor
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: geode-file-source
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-processor-7
+  labels:
+    app: geode-processor-7
+spec:
+  containers:
+    - name: geode-processor-7
       image: jhenfuseio/geode-processor
       imagePullPolicy: IfNotPresent
       ports:
