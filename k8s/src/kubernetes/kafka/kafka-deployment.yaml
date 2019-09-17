@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: kafka
-          image: wurstmeister/kafka:2.11-0.11.0.3
+          image: wurstmeister/kafka:latest
           ports:
             - containerPort: 9092
           env:
@@ -24,7 +24,7 @@ spec:
             - name: KAFKA_RESERVED_BROKER_MAX_ID
               value: "999999999"
             - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
-              value: "false"
+              value: "true"
             - name: KAFKA_PORT
               value: "9092"
             - name: KAFKA_ADVERTISED_PORT
