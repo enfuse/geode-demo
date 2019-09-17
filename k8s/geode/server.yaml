@@ -25,7 +25,7 @@ metadata:
   labels:
     app: geode-server
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: geode-server
@@ -54,6 +54,10 @@ spec:
               containerPort: 40404
             - name: jmx
               containerPort: 1099
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "500m"
   volumeClaimTemplates:
     - metadata:
         name: geode-data
