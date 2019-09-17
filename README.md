@@ -71,14 +71,15 @@ gfsh
 
 connect to the locator and set up the region
 ```bash
-gfsh > connect --locator=geode-locator-0[10334] --jmx-manager=geode-locator-0[1099]
+gfsh > connect --locator=locator-0[10334] --jmx-manager=locator-0[1099]
 gfsh > create region --name=telemetryRegion --type=REPLICATE
+gfsh > create region --name=telemetryRegion --type=PARTITION
 ```
 
 $import data
 file has to be on the member you're pointing to, in this case, /tmp/1mil.gfd is on geode-server-0
 ```bash
-gfsh > import data --region=telemetryRegion --file=/tmp/1mil.gfd --member=geode-server-0
+gfsh > import data --region=telemetryRegion --file=/tmp/1mil.gfd --member=server-0
 
 ```
 
@@ -94,8 +95,20 @@ gfsh > query --query='select count(*) from /telemetryRegion'
 Result should be 1 million rows.
 If it is at 100590 rows, there is a 5mb limit on the terminal that needs to be removed.
 
+Login to grafana with admin/password
+
 #Deploying file to file-source
 sh into file-source container and make /tmp/foo/ directory
 copy file into file-source
-`kubectl cp geode/data/telemetry.txt geode-file-source:/tmp/foo/1.txt`
-`kubectl cp geode/data/ telemetry.txt postgres-file-source:/tmp/foo/1.txt`
+```bash
+kubectl cp geode/data/telemetry.txt postgres-file-source:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry.txt geode-file-source:/tmp/foo/1.txt
+```
+
+kubectl cp geode/data/10k.txt postgres-file-source:/tmp/foo/10k.txt
+kubectl cp geode/data/10k.txt geode-file-source:/tmp/foo/10k.txt
+
+
+kubectl cp geode/data/test.txt postgres-file-source:/tmp/foo/test.txt
+kubectl cp geode/data/test.txt geode-file-source:/tmp/foo/test.txt
+
