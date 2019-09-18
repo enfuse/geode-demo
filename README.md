@@ -59,7 +59,7 @@ minikube delete
 #Create and Populate the Geode nodes
 Copy over database snapshot
 ```bash
-kubectl cp 1mil.gfd geode-server-0:/tmp/1mil.gfd
+kubectl cp 1mil.gfd server-0:/tmp/1mil.gfd
 ```
 
 connect to geode-locator-0
@@ -102,13 +102,10 @@ sh into file-source container and make /tmp/foo/ directory
 copy file into file-source
 ```bash
 kubectl cp geode/data/telemetry.txt postgres-file-source:/tmp/foo/1.txt
-kubectl cp geode/data/telemetry.txt geode-file-source:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-0.txt geode-file-source-0:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-1.txt geode-file-source-1:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-2.txt geode-file-source-2:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-3.txt geode-file-source-3:/tmp/foo/1.txt
 ```
 
-kubectl cp geode/data/10k.txt postgres-file-source:/tmp/foo/10k.txt
-kubectl cp geode/data/10k.txt geode-file-source:/tmp/foo/10k.txt
-
-
-kubectl cp geode/data/test.txt postgres-file-source:/tmp/foo/test.txt
-kubectl cp geode/data/test.txt geode-file-source:/tmp/foo/test.txt
 

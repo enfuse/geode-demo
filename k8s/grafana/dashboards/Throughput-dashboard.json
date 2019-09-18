@@ -37,8 +37,8 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 8,
-        "w": 5,
+        "h": 5,
+        "w": 4,
         "x": 0,
         "y": 0
       },
@@ -80,7 +80,7 @@
       "tableColumn": "__name__",
       "targets": [
         {
-          "expr": "( Geode_Speed_throughput_seconds_count)",
+          "expr": "sum(Geode_Speed_throughput_seconds_count)",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
@@ -110,10 +110,104 @@
       "datasource": "ScdfPrometheus",
       "fill": 1,
       "gridPos": {
-        "h": 14,
-        "w": 19,
-        "x": 5,
+        "h": 11,
+        "w": 20,
+        "x": 4,
         "y": 0
+      },
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(Geode_Speed_throughput_seconds_count)",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{stream-name}}",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(Postgres_Speed_throughput_seconds_count)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{stream-name}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Throughput",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "ScdfPrometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 11,
+        "w": 20,
+        "x": 4,
+        "y": 11
       },
       "id": 2,
       "legend": {
@@ -142,15 +236,16 @@
         {
           "expr": "Geode_Speed_throughput_seconds_count",
           "format": "time_series",
+          "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "Geode",
+          "legendFormat": "{{app}}",
           "refId": "A"
         },
         {
           "expr": "Postgres_Speed_throughput_seconds_count",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Postgres",
+          "legendFormat": "{{app}}",
           "refId": "B"
         }
       ],
@@ -196,7 +291,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -204,7 +299,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -235,6 +330,5 @@
   "timezone": "",
   "title": "Geode Vs Postgres Dashboard",
   "uid": "YFEKX-5Wz",
-  "version": 4
+  "version": 1
 }
-

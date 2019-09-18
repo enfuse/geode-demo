@@ -1,12 +1,111 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: geode-file-source
+  name: geode-file-source-0
   labels:
-    app: geode-file-source
+    app: geode-file-source-0
 spec:
   containers:
-    - name: scs-file-source
+    - name: scs-file-source-0
+      image: springcloudstream/file-source-kafka:latest
+      ports:
+        - containerPort: 8080
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SERVER_PORT
+          value: '80'
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-file-source
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
+          value: "8"
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
+          value: "true"
+        - name: file.directory
+          value: /tmp/foo/
+        - name: file.consumer.mode
+          value: lines
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-file-source-1
+  labels:
+    app: geode-file-source-1
+spec:
+  containers:
+    - name: scs-file-source-1
+      image: springcloudstream/file-source-kafka:latest
+      ports:
+        - containerPort: 8080
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SERVER_PORT
+          value: '80'
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-file-source
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
+          value: "8"
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
+          value: "true"
+        - name: file.directory
+          value: /tmp/foo/
+        - name: file.consumer.mode
+          value: lines
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-file-source-2
+  labels:
+    app: geode-file-source-2
+spec:
+  containers:
+    - name: scs-file-source-2
+      image: springcloudstream/file-source-kafka:latest
+      ports:
+        - containerPort: 8080
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+          value: kafka
+        - name: SERVER_PORT
+          value: '80'
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: geode-processor-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value:  geode-file-source
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
+          value: "8"
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
+          value: "true"
+        - name: file.directory
+          value: /tmp/foo/
+        - name: file.consumer.mode
+          value: lines
+  restartPolicy: Always
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: geode-file-source-3
+  labels:
+    app: geode-file-source-3
+spec:
+  containers:
+    - name: scs-file-source-3
       image: springcloudstream/file-source-kafka:latest
       ports:
         - containerPort: 8080
