@@ -1,423 +1,201 @@
-kind: Pod
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: geode-file-source-0
+  name: geode-file-source
   labels:
-    app: geode-file-source-0
+    app: geode-file-source
 spec:
-  containers:
-    - name: scs-file-source-0
-      image: springcloudstream/file-source-kafka:latest
-      ports:
-        - containerPort: 8080
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SERVER_PORT
-          value: '80'
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-file-source
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
-          value: "8"
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
-          value: "true"
-        - name: file.directory
-          value: /tmp/foo/
-        - name: file.consumer.mode
-          value: lines
-  restartPolicy: Always
+  replicas: 2
+  selector:
+    matchLabels:
+      app: geode-file-source
+  template:
+    metadata:
+      labels:
+        app: geode-file-source
+    spec:
+      containers:
+        - name: geode-file-source
+          image: springcloudstream/file-source-kafka:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SERVER_PORT
+              value: '80'
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: geode-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  geode-file-source
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
+              value: "8"
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
+              value: "true"
+            - name: file.directory
+              value: /tmp/foo/
+            - name: file.consumer.mode
+              value: lines
+      restartPolicy: Always
 ---
-kind: Pod
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: geode-file-source-1
+  name: geode-processor
   labels:
-    app: geode-file-source-1
+    app: geode-processor
 spec:
-  containers:
-    - name: scs-file-source-1
-      image: springcloudstream/file-source-kafka:latest
-      ports:
-        - containerPort: 8080
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SERVER_PORT
-          value: '80'
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-file-source
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
-          value: "8"
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
-          value: "true"
-        - name: file.directory
-          value: /tmp/foo/
-        - name: file.consumer.mode
-          value: lines
-  restartPolicy: Always
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geode-processor
+  template:
+    metadata:
+      labels:
+        app: geode-processor
+    spec:
+      containers:
+        - name: geode-processor
+          image: jhenfuseio/geode-processor
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: geode-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  geode-processor
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+              value: geode-file-source
+            - name: SERVER_PORT
+              value: '80'
+      restartPolicy: Always
 ---
-kind: Pod
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: geode-file-source-2
+  name: postgres-file-source
   labels:
-    app: geode-file-source-2
+    app: postgres-file-source
 spec:
-  containers:
-    - name: scs-file-source-2
-      image: springcloudstream/file-source-kafka:latest
-      ports:
-        - containerPort: 8080
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SERVER_PORT
-          value: '80'
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-file-source
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
-          value: "8"
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
-          value: "true"
-        - name: file.directory
-          value: /tmp/foo/
-        - name: file.consumer.mode
-          value: lines
-  restartPolicy: Always
+  replicas: 2
+  selector:
+    matchLabels:
+      app: postgres-file-source
+  template:
+    metadata:
+      labels:
+        app: postgres-file-source
+    spec:
+      containers:
+        - name: postgres-scs-file-source
+          image: springcloudstream/file-source-kafka:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SERVER_PORT
+              value: '80'
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: postgres-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  postgres-file-source
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
+              value: "8"
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
+              value: "true"
+            - name: file.directory
+              value: /tmp/foo/
+            - name: file.consumer.mode
+              value: lines
+            - name: debug
+              value: 'true'
+            - name: logging.file
+              value: /home/spring-boot.log
+            - name: logging.file.max-size
+              value: 100MB
+      restartPolicy: Always
 ---
-kind: Pod
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: geode-file-source-3
+  name: postgres-processor
   labels:
-    app: geode-file-source-3
+    app: postgres-processor
 spec:
-  containers:
-    - name: scs-file-source-3
-      image: springcloudstream/file-source-kafka:latest
-      ports:
-        - containerPort: 8080
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SERVER_PORT
-          value: '80'
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-file-source
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
-          value: "8"
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
-          value: "true"
-        - name: file.directory
-          value: /tmp/foo/
-        - name: file.consumer.mode
-          value: lines
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-0
-  labels:
-    app: geode-processor-0
-spec:
-  containers:
-    - name: geode-processor-0
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-1
-  labels:
-    app: geode-processor-1
-spec:
-  containers:
-    - name: geode-processor-1
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-2
-  labels:
-    app: geode-processor-2
-spec:
-  containers:
-    - name: geode-processor-2
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-3
-  labels:
-    app: geode-processor-3
-spec:
-  containers:
-    - name: geode-processor-3
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-4
-  labels:
-    app: geode-processor-4
-spec:
-  containers:
-    - name: geode-processor-4
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-5
-  labels:
-    app: geode-processor-5
-spec:
-  containers:
-    - name: geode-processor-5
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-6
-  labels:
-    app: geode-processor-6
-spec:
-  containers:
-    - name: geode-processor-6
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: geode-processor-7
-  labels:
-    app: geode-processor-7
-spec:
-  containers:
-    - name: geode-processor-7
-      image: jhenfuseio/geode-processor
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 80
-          protocol: TCP
-      env:
-        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-          value: kafka
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: geode-processor-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value:  geode-processor
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: geode-file-source
-        - name: SERVER_PORT
-          value: '80'
-  restartPolicy: Always
-#---
-#kind: Pod
-#apiVersion: v1
-#metadata:
-#  name: postgres-file-source
-#  labels:
-#    app: postgres-file-source
-#spec:
-#  containers:
-#    - name: postgres-scs-file-source
-#      image: springcloudstream/file-source-kafka:latest
-#      ports:
-#        - containerPort: 8080
-#        - containerPort: 80
-#          protocol: TCP
-#      env:
-#        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-#          value: kafka
-#        - name: SERVER_PORT
-#          value: '80'
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-#          value: postgres-processor-stream
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-#          value:  postgres-file-source
-#        - name: file.directory
-#          value: /tmp/foo/
-#        - name: file.consumer.mode
-#          value: lines
-#        - name: debug
-#          value: 'true'
-#        - name: logging.file
-#          value: /home/spring-boot.log
-#        - name: logging.file.max-size
-#          value: 100MB
-#  restartPolicy: Always
-#---
-#kind: Pod
-#apiVersion: v1
-#metadata:
-#  name: postgres-processor
-#  labels:
-#    app: postgres-processor
-#spec:
-#  containers:
-#    - name: postgres-processor
-#      image: jhenfuseio/postgres-processor
-#      imagePullPolicy: Always
-#      ports:
-#        - containerPort: 80
-#          protocol: TCP
-#      env:
-#        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-#          value: kafka
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-#          value: postgres-processor-stream
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-#          value:  postgres-processor
-#        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-#          value: postgres-file-source
-#        - name: SERVER_PORT
-#          value: '80'
-#        - name: spring.datasource.driver-class-name
-#          value: org.postgresql.Driver
-#        - name: spring.datasource.password
-#          value: app
-#        - name: spring.datasource.url
-#          value: jdbc:postgresql://postgres:5432/app
-#        - name: spring.datasource.username
-#          value: app
-#        - name: debug
-#          value: 'true'
-#        - name: logging.file
-#          value: /home/spring-boot.log
-#        - name: logging.file.max-size
-#          value: 100MB
-#  restartPolicy: Always
+  replicas: 2
+  selector:
+    matchLabels:
+      app: postgres-processor
+  template:
+    metadata:
+      labels:
+        app: postgres-processor
+    spec:
+      containers:
+        - name: postgres-processor
+          image: jhenfuseio/postgres-processor
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: password
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: postgres-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  postgres-processor
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+              value: postgres-file-source
+            - name: SERVER_PORT
+              value: '80'
+            - name: spring.datasource.driver-class-name
+              value: org.postgresql.Driver
+            - name: spring.datasource.password
+              value: ${DB_PASSWORD}
+            - name: spring.datasource.url
+              value: jdbc:postgresql://localhost:5432/postgres
+            - name: spring.datasource.username
+              value: ${DB_USER}
+            - name: debug
+              value: 'true'
+            - name: logging.file
+              value: /home/spring-boot.log
+            - name: logging.file.max-size
+              value: 100MB
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.14
+          command: ["/cloud_sql_proxy",
+                    "-instances=enfuse-gke:us-central1:s1p-demo-postgres=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+      restartPolicy: Always

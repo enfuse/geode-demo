@@ -22,39 +22,12 @@ https://github.com/derailed/k9s
 
 > Note that you will need to have a hypervisor installed; if you don't, check out the kubernetes guide to [installing a hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-
 #### search for 'tbenfuse' in build.gradle and k8s yaml and replace with your username
-
-If you're using minikube as your cluster, you can skip the GCP section and go to [minikube](#start-minikube)
-
-# Adding GCP config to kubectl config
-
-```bash
-gcloud config set project my-project
-gcloud config set compute/zone my-zone
-gcloud container clusters get-credentials my-project
-```
-
-# See project views registered to kubectl
-```bash
-kubectl config view
-```
-
-# Point Kubectl to use a cluster
-```bash
-kubectl config use-context my-project-view-name
-```
-
-# Start GCP cluster
-```bash
-gcloud container clusters resize my-project --num-nodes=8 --zone=my-zone
-```
 
 # Start minikube
 ```
 minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
 ```
-
 
 # deploy kafka, geode, pipelines, prometheus and grafana
 Navigate to the k8s folder
@@ -68,10 +41,10 @@ k9s
 ```
 
 
-#Create and Populate the Geode nodes
-####Copy over database snapshot
+# Create and Populate the Geode nodes
+#### Copy over database snapshot
 ```bash
-kubectl cp 1mil.gfd server-0:/tmp/1mil.gfd
+kubectl cp geode/data/1mil.gfd server-0:/tmp/1mil.gfd
 ```
 
 #### SSH into locator-0
@@ -119,11 +92,20 @@ kubectl cp geode/data/telemetry-3.txt geode-file-source-3:/tmp/foo/1.txt
 ## Grafana
 
 ### Accessing Grafana
+Find the assigned name in k9s for grafana
 Port forward grafana
 ```bash
-kubectl port-forward 
+kubectl port-forward grafana-tenCharSeq-5Char 3000
 ```
-default username/password is admin/password
+Now you can access grafana on `http://localhost:3000/login`
+
+credentials:
+```bash
+user:       admin
+password:   password
+```
+
+A sample json dashboard is included in /k8s/grafana/dashboards/ 
 
 ## to tear down applications
 # delete pods
