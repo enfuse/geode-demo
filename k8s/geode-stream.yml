@@ -1,0 +1,77 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: geode-file-source
+  labels:
+    app: geode-file-source
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: geode-file-source
+  template:
+    metadata:
+      labels:
+        app: geode-file-source
+    spec:
+      containers:
+        - name: geode-file-source
+          image: springcloudstream/file-source-kafka:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SERVER_PORT
+              value: '80'
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: geode-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  geode-file-source
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_PARTITION-COUNT
+              value: "8"
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_AUTOADDPARTITIONS
+              value: "true"
+            - name: file.directory
+              value: /tmp/foo/
+            - name: file.consumer.mode
+              value: lines
+      restartPolicy: Always
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: geode-processor
+  labels:
+    app: geode-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geode-processor
+  template:
+    metadata:
+      labels:
+        app: geode-processor
+    spec:
+      containers:
+        - name: geode-processor
+          image: jhenfuseio/geode-processor
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: geode-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  geode-processor
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+              value: geode-file-source
+            - name: SERVER_PORT
+              value: '80'
+      restartPolicy: Always
