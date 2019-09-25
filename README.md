@@ -22,7 +22,7 @@ https://github.com/derailed/k9s
 
 > Note that you will need to have a hypervisor installed; if you don't, check out the kubernetes guide to [installing a hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-#### search for 'tbenfuse' in build.gradle and k8s yaml and replace with your username
+#### search for 'tbenfuse' in build.gradle and scdf-geode-stream.yml and replace with your username
 
 # Start minikube
 ```
@@ -58,7 +58,6 @@ gfsh
 ```bash
 gfsh > connect --locator=locator-0[10334] --jmx-manager=locator-0[1099]
 gfsh > create region --name=telemetryRegion --type=REPLICATE
-gfsh > create region --name=telemetryRegion --type=PARTITION
 ```
 
 #### import data
@@ -76,8 +75,6 @@ gfsh > rebalance
 ```bash
 gfsh > query --query='select count(*) from /telemetryRegion'
 ```
-> Result should be 1 million rows.
-
 
 #### Deploying file to file-source
 copy file into file-source and watch it run through Grafana
