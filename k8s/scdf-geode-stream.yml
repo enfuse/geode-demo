@@ -148,16 +148,6 @@ spec:
             - containerPort: 80
               protocol: TCP
           env:
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: cloudsql-db-credentials
-                  key: username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cloudsql-db-credentials
-                  key: password
             - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
               value: kafka
             - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
@@ -171,31 +161,14 @@ spec:
             - name: spring.datasource.driver-class-name
               value: org.postgresql.Driver
             - name: spring.datasource.password
-              value: ${DB_PASSWORD}
+              value: app
             - name: spring.datasource.url
-              value: jdbc:postgresql://localhost:5432/postgres
+              value: jdbc:postgresql://localhost:5432/app
             - name: spring.datasource.username
-              value: ${DB_USER}
+              value: app
             - name: debug
               value: 'true'
             - name: logging.file
               value: /home/spring-boot.log
             - name: logging.file.max-size
               value: 100MB
-        - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.14
-          command: ["/cloud_sql_proxy",
-                    "-instances=enfuse-gke:us-central1:s1p-demo-postgres=tcp:5432",
-                    "-credential_file=/secrets/cloudsql/credentials.json"]
-          securityContext:
-            runAsUser: 2  # non-root user
-            allowPrivilegeEscalation: false
-          volumeMounts:
-            - name: cloudsql-instance-credentials
-              mountPath: /secrets/cloudsql
-              readOnly: true
-      volumes:
-        - name: cloudsql-instance-credentials
-          secret:
-            secretName: cloudsql-instance-credentials
-      restartPolicy: Always

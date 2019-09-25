@@ -83,10 +83,7 @@ gfsh > query --query='select count(*) from /telemetryRegion'
 copy file into file-source and watch it run through Grafana
 ```bash
 kubectl cp geode/data/telemetry.txt postgres-file-source:/tmp/foo/1.txt
-kubectl cp geode/data/telemetry-0.txt geode-file-source-0:/tmp/foo/1.txt
-kubectl cp geode/data/telemetry-1.txt geode-file-source-1:/tmp/foo/1.txt
-kubectl cp geode/data/telemetry-2.txt geode-file-source-2:/tmp/foo/1.txt
-kubectl cp geode/data/telemetry-3.txt geode-file-source-3:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry.txt geode-file-source-0:/tmp/foo/1.txt
 ```
 
 ## Grafana
