@@ -1,5 +1,5 @@
-# SCDF, Geode and Kafka Demo
-Demo pipeline using Spring Cloud Data Flow, Apache Geode and Apache Kafka
+# Geode and Kafka Demo
+Demo pipeline using Apache Geode and Apache Kafka
 
 # Setup
 
@@ -16,37 +16,23 @@ On macs:
 $ brew install kubernetes-cli
 $ brew cask install minikube
 ```
+# install k9s to manage your Kubernetes cluster
+https://github.com/derailed/k9s
+
 
 > Note that you will need to have a hypervisor installed; if you don't, check out the kubernetes guide to [installing a hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-
-# search for 'tbenfuse' in build.gradle and k8s yaml and replace with your username
+#### search for 'tbenfuse' in build.gradle and k8s yaml and replace with your username
 
 # Start minikube
 ```
 minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
 ```
-# install this app to manage your local k8s cluster
-https://github.com/derailed/k9s
 
-#did this command to see if minikube needed to hook into local docker. dont think it did anything
+# deploy kafka, geode, pipelines, prometheus and grafana
+Navigate to the k8s folder
 ```
-eval $(minikube docker-env)
-```
-# deploy kafka & geode
-```
-./k8s/scdf-geode-stream.setup.sh
-```
-
-# build docker image & push to Dockerhub 
-```
-./SCDF/geode-processor/gradlew dockerBuildImage
-```
-push to dockerhub (we need to figure out how to do this automatically)
-
-# build application pods
-```
-kubectl apply -f k8s/scdf-geode-stream.yml
+./setup.sh
 ```
 
 # explore k8s cluster
@@ -54,66 +40,80 @@ kubectl apply -f k8s/scdf-geode-stream.yml
 k9s
 ```
 
+
+# Create and Populate the Geode nodes
+#### Copy over database snapshot
+```bash
+kubectl cp geode/data/1mil.gfd server-0:/tmp/1mil.gfd
+```
+
+#### SSH into locator-0
+
+#### Run the gemfire shell
+```bash
+gfsh
+```
+
+#### connect to the locator and set up the region
+```bash
+gfsh > connect --locator=locator-0[10334] --jmx-manager=locator-0[1099]
+gfsh > create region --name=telemetryRegion --type=REPLICATE
+gfsh > create region --name=telemetryRegion --type=PARTITION
+```
+
+#### import data
+```bash
+gfsh > import data --region=telemetryRegion --file=/tmp/1mil.gfd --member=server-0
+```
+> file has to be on the member you're pointing to, in this case, /tmp/1mil.gfd is on geode-server-0
+
+#### rebalance Geode nodes 
+```bash
+gfsh > rebalance
+```
+
+#### Quick query check to see how many entries in region
+```bash
+gfsh > query --query='select count(*) from /telemetryRegion'
+```
+> Result should be 1 million rows.
+
+
+#### Deploying file to file-source
+copy file into file-source and watch it run through Grafana
+```bash
+kubectl cp geode/data/telemetry.txt postgres-file-source:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-0.txt geode-file-source-0:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-1.txt geode-file-source-1:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-2.txt geode-file-source-2:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry-3.txt geode-file-source-3:/tmp/foo/1.txt
+```
+
+## Grafana
+
+### Accessing Grafana
+Find the assigned name in k9s for grafana
+Port forward grafana
+```bash
+kubectl port-forward grafana-tenCharSeq-5Char 3000
+```
+Now you can access grafana on `http://localhost:3000/login`
+
+credentials:
+```bash
+user:       admin
+password:   password
+```
+
+A sample json dashboard is included in /k8s/grafana/dashboards/ 
+
 ## to tear down applications
 # delete pods
 ```
 kubectl delete pod --all
 ```
 
-#take down minikube
+# take down minikube
 ```
 minikube delete
-```
-
-#Create and Populate the Geode nodes
-Copy over database snapshot
-```bash
-kubectl cp 1mil.gfd geode-locator-0:/tmp/1mil.gfd
-```
-
-connect to geode-locator-0
-
-Run the gemfire shell
-```bash
-gfsh
-```
-
-connect to the locator and set up the region
-```bash
-gfsh > connect --locator=geode-locator-0[10334] --jmx-manager=geode-locator-0[1099]
-gfsh > create region --name=telemetryRegion --type=REPLICATE
-```
-
-$import data
-file has to be on the member you're pointing to, in this case, /tmp/1mil.gfd is on geode-server-0
-```bash
-gfsh > import data --region=telemetryRegion --file=/tmp/1mil.gfd --member=geode-server-0
-
-```
-
-rebalance Geode nodes 
-```bash
-gfsh > rebalance
-```
-
-Quick Query check to see how many entries in region
-```bash
-gfsh > query --query='select count(*) from /telemetryRegion'
-```
-
-#Deploying file to file-source
-sh into file-source container and make /tmp/foo/ directory
-copy file into file-source
-`kubectl cp 1mil.txt file-source:/tmp/foo/1mil.txt`
-
-#minikube dashboard
-```bash
-minikube dashboard
-```
-
-
-#taking down just prometheus
-```bash
-kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
-kubectl delete all,cm,svc -l app=prometheus
 ```

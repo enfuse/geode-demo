@@ -1,0 +1,10 @@
+{"Latitude":"101.01","VehicleId":"1","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"2","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"3","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"4","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"5","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"6","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"7","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"8","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"9","Speed":"35","Longitude":"-101.01"}
+{"Latitude":"101.01","VehicleId":"10","Speed":"35","Longitude":"-101.01"}

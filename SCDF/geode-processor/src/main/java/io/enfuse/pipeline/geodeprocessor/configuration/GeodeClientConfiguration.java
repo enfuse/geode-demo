@@ -25,7 +25,7 @@ import org.springframework.data.gemfire.support.ConnectionEndpoint;
 public class GeodeClientConfiguration {
   @Bean
   ClientCacheConfigurer clientCacheServerConfigurer(
-      @Value("${spring.data.geode.locator.host:geode-locator}") String hostname,
+      @Value("${spring.data.geode.locator.host:locator}") String hostname,
       @Value("${spring.data.geode.locator.port:10334}") int port) {
 
     return (beanName, clientCacheFactoryBean) ->

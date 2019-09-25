@@ -1,4 +1,0 @@
-spec:
-  ports:
-    - port: 5005
-      name: scdf-server-jdwp

@@ -1,0 +1,26 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cluster-admins
+subjects:
+  - kind: User
+    name: jh@enfuse.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: ""
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus

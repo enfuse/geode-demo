@@ -8,7 +8,7 @@ spring:
         jdbc.lob.non_contextual_creation: true
     generate-ddl: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/app
+    url: jdbc:postgresql://postgres:5432/app
     driverClassName: org.postgresql.Driver
     username: app
     password: app
