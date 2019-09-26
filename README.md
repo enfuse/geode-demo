@@ -2,7 +2,7 @@
 Demo pipeline using Apache Geode and Apache Kafka
 
 # Setup
-
+In this demo we will set up a local cluster with minikube and deploy a pipeline that grabs from a file source and enriches the payload with data from geode and grab metrics on the throughput.
 ## Dependencies
 You will need the following installed on your local workstation:
 
@@ -22,8 +22,8 @@ https://github.com/derailed/k9s
 
 > Note that you will need to have a hypervisor installed; if you don't, check out the kubernetes guide to [installing a hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-#### search for 'tbenfuse' in build.gradle and scdf-geode-stream.yml and replace with your username
-
+#### search for 'tbenfuse' in build.gradle, geode-stream.yml and sql-stream.yml and replace with your docker username
+You will need to build the docker image and host it on own docker hub.
 # Start minikube
 ```
 minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
