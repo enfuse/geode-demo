@@ -23,10 +23,16 @@ https://github.com/derailed/k9s
 > Note that you will need to have a hypervisor installed; if you don't, check out the kubernetes guide to [installing a hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
 #### search for 'tbenfuse' in build.gradle, geode-stream.yml and sql-stream.yml and replace with your docker username
-You will need to build the docker image and host it on own docker hub.
+
 # Start minikube
 ```
 minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
+```
+
+## build & push geode-processor docker image
+``` 
+./SCDF/geode-processor/gradlew dockerBuildImage
+docker push [username]/geode-processor:latest
 ```
 
 # deploy kafka, geode, pipelines, prometheus and grafana

@@ -20,5 +20,3 @@ kubectl apply -f prometheus
 
 #Deploy Grafana
 kubectl apply -f grafana
-
-kubectl cp geode/data/1mil.gfd server-0:/tmp/1mil.gfd
