@@ -35,17 +35,51 @@ minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
 docker push [username]/geode-processor:latest
 ```
 
+ # explore k8s cluster
+ ```
+ k9s
+ ```
+
 # deploy kafka, geode, pipelines, prometheus and grafana
 Navigate to the k8s folder
+
+After each step, confirm that the container is deployed
+> This may take a while as each container needs to be downloaded
+### Deploy Geode
 ```
-./setup.sh
+kubectl apply -f geode
+```
+### Deploy Kafka
+```
+kubectl apply -f kafka
+```
+### Deploy Postgres
+```
+kubectl apply -f postgres
 ```
 
-# explore k8s cluster
+### Deploy Geode Pipeline
 ```
-k9s
+kubectl apply -f geode-stream.yml
+```
+### Deploy postgres Pipeline
+```
+kubectl apply -f sql-stream.yml
 ```
 
+
+### Deploy Prometheus
+```
+kubectl apply -f mysql
+kubectl apply -f prometheus
+```
+
+### Deploy Grafana
+```
+
+kubectl apply -f grafana
+
+```
 
 # Create and Populate the Geode nodes
 #### Copy over database snapshot
