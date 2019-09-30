@@ -5,7 +5,7 @@ metadata:
   labels:
     app: geode-file-source
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: geode-file-source

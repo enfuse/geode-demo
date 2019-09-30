@@ -19,7 +19,7 @@ spec:
     matchLabels:
       app: server
   serviceName: "server"
-  replicas: 4
+  replicas: 1
   template:
     metadata:
       labels:

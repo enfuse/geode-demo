@@ -5,7 +5,7 @@ metadata:
   labels:
     app: postgres-file-source
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: postgres-file-source
@@ -53,7 +53,7 @@ metadata:
   labels:
     app: postgres-processor
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: postgres-processor
@@ -85,7 +85,7 @@ spec:
             - name: spring.datasource.password
               value: app
             - name: spring.datasource.url
-              value: jdbc:postgresql://localhost:5432/app
+              value: jdbc:postgresql://postgres:5432/app
             - name: spring.datasource.username
               value: app
             - name: debug
