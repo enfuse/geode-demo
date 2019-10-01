@@ -22,8 +22,6 @@ https://github.com/derailed/k9s
 
 > Note that you will need to have a hypervisor installed; if you don't, check out the kubernetes guide to [installing a hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-#### search for 'tbenfuse' in build.gradle, geode-stream.yml and sql-stream.yml and replace with your docker username
-
 # Start minikube
 ```
 minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
@@ -39,6 +37,7 @@ docker push [username]/geode-processor:latest
  ```
  k9s
  ```
+> Note that selecting a container in k9s and pressing 's' will ssh you into that container. 'l' will display logs.
 
 # deploy kafka, geode, pipelines, prometheus and grafana
 Navigate to the k8s folder

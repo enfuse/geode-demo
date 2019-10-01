@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
         - name: geode-processor
-          image: jhenfuseio/geode-processor
+          image: enfuseio/geode-processor
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

@@ -64,7 +64,7 @@ spec:
     spec:
       containers:
         - name: postgres-processor
-          image: jhenfuseio/postgres-processor
+          image: enfuseio/postgres-processor
           imagePullPolicy: Always
           ports:
             - containerPort: 80

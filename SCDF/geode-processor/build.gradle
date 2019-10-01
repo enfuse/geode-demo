@@ -85,7 +85,7 @@ docker {
     springBootApplication {
         baseImage = 'openjdk:8-alpine'
         ports = [9090, 8080]
-        tag = 'tbenfuse/geode-processor:latest'
+        tag = 'enfuseio/geode-processor:latest'
         jvmArgs = ['-Xmx2048m']
     }
 }

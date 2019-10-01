@@ -88,7 +88,7 @@ docker {
     springBootApplication {
         baseImage = 'openjdk:8-alpine'
         ports = [9090, 8080]
-        tag = 'jhenfuseio/postgres-processor:latest'
+        tag = 'enfuseio/postgres-processor:latest'
         jvmArgs = ['-Xmx2048m']
     }
 }
