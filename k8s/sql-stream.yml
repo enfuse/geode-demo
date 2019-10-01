@@ -94,3 +94,39 @@ spec:
               value: /home/spring-boot.log
             - name: logging.file.max-size
               value: 100MB
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: postgres-sink
+  labels:
+    app: postgres-sink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-sink
+  template:
+    metadata:
+      labels:
+        app: postgres-sink
+    spec:
+      containers:
+        - name: postgres-sink
+          image: springcloudstream/log-sink-kafka:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SERVER_PORT
+              value: '80'
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: postgres-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  postgres-log-sink
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+              value: postgres-processor
+      restartPolicy: Always

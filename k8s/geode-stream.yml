@@ -75,3 +75,39 @@ spec:
             - name: SERVER_PORT
               value: '80'
       restartPolicy: Always
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: geode-sink
+  labels:
+    app: geode-sink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geode-sink
+  template:
+    metadata:
+      labels:
+        app: geode-sink
+    spec:
+      containers:
+        - name: geode-sink
+          image: springcloudstream/log-sink-kafka:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              value: kafka
+            - name: SERVER_PORT
+              value: '80'
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+              value: geode-processor-stream
+            - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+              value:  geode-log-sink
+            - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+              value: geode-processor
+      restartPolicy: Always
