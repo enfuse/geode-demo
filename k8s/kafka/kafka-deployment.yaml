@@ -1,20 +1,24 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-broker
   labels:
-    app: kafka
+    app: kafka-broker
     component: kafka-broker
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-broker
+      component: kafka-broker
   template:
     metadata:
       labels:
-        app: kafka
+        app: kafka-broker
         component: kafka-broker
     spec:
       containers:
-        - name: kafka
+        - name: kafka-broker
           image: wurstmeister/kafka:latest
           ports:
             - containerPort: 9092

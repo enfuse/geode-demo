@@ -23,7 +23,7 @@ spec:
               protocol: TCP
           env:
             - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-              value: kafka
+              value: kafka-broker
             - name: SERVER_PORT
               value: '80'
             - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
@@ -65,7 +65,7 @@ spec:
               protocol: TCP
           env:
             - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-              value: kafka
+              value: kafka-broker
             - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
               value: geode-processor-stream
             - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
@@ -101,7 +101,7 @@ spec:
               protocol: TCP
           env:
             - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
-              value: kafka
+              value: kafka-broker
             - name: SERVER_PORT
               value: '80'
             - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
