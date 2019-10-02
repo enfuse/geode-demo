@@ -52,20 +52,11 @@ kubectl apply -f geode
 ```
 kubectl apply -f kafka
 ```
-### Deploy Postgres
-```
-kubectl apply -f postgres
-```
 
 ### Deploy Geode Pipeline
 ```
 kubectl apply -f geode-stream.yml
 ```
-### Deploy postgres Pipeline
-```
-kubectl apply -f sql-stream.yml
-```
-
 
 ### Deploy Prometheus
 ```
@@ -118,8 +109,7 @@ gfsh > query --query='select count(*) from /telemetryRegion'
 #### Deploying file to file-source
 copy file into file-source and watch it run through Grafana
 ```bash
-kubectl cp geode/data/telemetry.txt postgres-file-source:/tmp/foo/1.txt
-kubectl cp geode/data/telemetry.txt geode-file-source-0:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry.txt geode-file-source-tenCharSeq-5Char:/tmp/foo/1.txt
 ```
 
 ## Grafana

@@ -10,13 +10,6 @@ data:
     sleep 5
 
     echo "locator-0.locator[10334]" > /tmp/servers
-    for i in `seq 1 50`;do
-      ping locator-${i}.locator -c 1 > /dev/null 2>&1
-      if [ $? != 0 ];then
-        break;
-      fi
-      echo "locator-${i}.locator[10334]" >> /tmp/servers
-    done
   
     LOCATORS=$(cat /tmp/servers | paste -s -d ',' -)
 

@@ -9,9 +9,8 @@ kubectl apply -f kafka
 # Deploy Postgres
 kubectl apply -f postgres
 
-# Deploy SCS applications
+# Deploy Geode pipeline
 kubectl apply -f geode-stream.yml
-kubectl apply -f sql-stream.yml
 
 # Deploy Prometheus
 kubectl apply -f mysql
