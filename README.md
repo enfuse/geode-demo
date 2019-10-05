@@ -27,12 +27,6 @@ https://github.com/derailed/k9s
 minikube start --cpus 4 --memory 8096 --vm-driver=hyperkit
 ```
 
-## build & push geode-processor docker image
-``` 
-./SCDF/geode-processor/gradlew dockerBuildImage
-docker push [username]/geode-processor:latest
-```
-
  # explore k8s cluster
  ```
  k9s
@@ -54,17 +48,20 @@ kubectl apply -f kafka
 ```
 
 ### Deploy Geode Pipeline
+Deploying the file source, geode processor and log sink
 ```
 kubectl apply -f geode-stream.yml
 ```
 
 ### Deploy Prometheus
+Containers that scrape data from the containers in the pipeline
 ```
 kubectl apply -f mysql
 kubectl apply -f prometheus
 ```
 
 ### Deploy Grafana
+Graphing tool to utilize the information scraped from Prometheus
 ```
 
 kubectl apply -f grafana
@@ -85,6 +82,7 @@ gfsh
 ```
 
 #### connect to the locator and set up the region
+> Connecting to the locator and creating telemtryRegion so we can insert/fetch data
 ```bash
 gfsh > connect --locator=locator-0[10334] --jmx-manager=locator-0[1099]
 gfsh > create region --name=telemetryRegion --type=REPLICATE
@@ -96,21 +94,18 @@ gfsh > import data --region=telemetryRegion --file=/tmp/1mil.gfd --member=server
 ```
 > file has to be on the member you're pointing to, in this case, /tmp/1mil.gfd is on geode-server-0
 
-#### rebalance Geode nodes 
-```bash
-gfsh > rebalance
-```
-
-#### Quick query check to see how many entries in region
+#### Quick query check to confirm data has been inserted
 ```bash
 gfsh > query --query='select count(*) from /telemetryRegion'
 ```
 
 #### Deploying file to file-source
-copy file into file-source and watch it run through Grafana
+copy file into file-source
 ```bash
-kubectl cp geode/data/telemetry.txt geode-file-source-tenCharSeq-5Char:/tmp/foo/1.txt
+kubectl cp geode/data/telemetry.txt {{geode fiel source pod name}}:/tmp/foo/1.txt
 ```
+
+You can view the data going through the processor and sink by looking at the logs
 
 ## Grafana
 
@@ -118,7 +113,7 @@ kubectl cp geode/data/telemetry.txt geode-file-source-tenCharSeq-5Char:/tmp/foo/
 Find the assigned name in k9s for grafana
 Port forward grafana
 ```bash
-kubectl port-forward grafana-tenCharSeq-5Char 3000
+kubectl port-forward {{grafana pod name}} 3000
 ```
 Now you can access grafana on `http://localhost:3000/login`
 

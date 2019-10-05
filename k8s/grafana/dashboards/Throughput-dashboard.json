@@ -90,7 +90,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Throughput",
+      "title": "Total",
       "type": "singlestat",
       "valueFontSize": "120%",
       "valueMaps": [
@@ -114,100 +114,6 @@
         "w": 20,
         "x": 4,
         "y": 0
-      },
-      "id": 6,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {},
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(Geode_Speed_throughput_seconds_count)",
-          "format": "time_series",
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{stream-name}}",
-          "refId": "A"
-        },
-        {
-          "expr": "sum(Postgres_Speed_throughput_seconds_count)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{stream-name}}",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Throughput",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "ScdfPrometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 11,
-        "w": 20,
-        "x": 4,
-        "y": 11
       },
       "id": 2,
       "legend": {
@@ -234,19 +140,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "Geode_Speed_throughput_seconds_count",
+          "expr": "rate(Geode_Speed_throughput_seconds_count[10s])",
           "format": "time_series",
           "instant": false,
           "intervalFactor": 1,
           "legendFormat": "{{app}}",
           "refId": "A"
-        },
-        {
-          "expr": "Postgres_Speed_throughput_seconds_count",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{app}}",
-          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -328,7 +227,7 @@
     ]
   },
   "timezone": "",
-  "title": "Geode Vs Postgres Dashboard",
+  "title": "Geode Dashboard",
   "uid": "YFEKX-5Wz",
   "version": 1
 }
