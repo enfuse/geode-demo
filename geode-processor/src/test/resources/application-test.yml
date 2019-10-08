@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: geode-processor
+  cloud:
+    stream:
+      bindings:
+        input:
+          consumer:
+            useNativeDecoding: true
+        output:
+          producer:
+            useNativeEncoding: true

@@ -9,7 +9,6 @@ import org.apache.geode.cache.client.ClientRegionShortcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.gemfire.config.annotation.*;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.data.gemfire.support.ConnectionEndpoint;
@@ -21,7 +20,7 @@ import org.springframework.data.gemfire.support.ConnectionEndpoint;
     serverRegionShortcut = RegionShortcut.PARTITION)
 @EnableGemfireRepositories(basePackageClasses = TelemetryRepository.class)
 @EnableStatistics
-@Profile("!integration")
+@EnablePdx
 public class GeodeClientConfiguration {
   @Bean
   ClientCacheConfigurer clientCacheServerConfigurer(

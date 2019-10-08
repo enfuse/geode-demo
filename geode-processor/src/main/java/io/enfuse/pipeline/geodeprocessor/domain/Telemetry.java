@@ -2,19 +2,15 @@ package io.enfuse.pipeline.geodeprocessor.domain;
 
 import org.springframework.data.gemfire.mapping.annotation.Region;
 
-//  truck’s identifier and its lat and long.
 @Region("telemetryRegion")
 public class Telemetry {
-  // VEH_VehicleId
-  String vehicleId;
-  // LOC_Latitude
-  String latitude;
-  // LOC_Longitude
-  String longitude;
-  // LOC_Speed
-  String speed;
+  private String vehicleId;
+  private String latitude;
+  private String longitude;
+  private String speed;
+  private String value;
 
-  String value;
+  public Telemetry() {}
 
   private Telemetry(Builder builder) {
     setVehicleId(builder.vehicleId);

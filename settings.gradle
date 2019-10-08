@@ -1,0 +1,2 @@
+rootProject.name = 'geode-pipeline-demo'
+include 'geode-processor'

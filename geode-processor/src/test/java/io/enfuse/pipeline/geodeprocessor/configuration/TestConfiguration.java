@@ -7,11 +7,11 @@ import org.apache.geode.cache.client.ClientRegionShortcut;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.gemfire.client.ClientRegionFactoryBean;
-import org.springframework.test.context.ActiveProfiles;
 
 @Configuration
-@ActiveProfiles("integration")
+@Profile("test")
 class TestConfiguration {
 
   @Bean("gemfireCache")

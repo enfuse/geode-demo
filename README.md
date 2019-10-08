@@ -16,7 +16,7 @@ On macs:
 $ brew install kubernetes-cli
 $ brew cask install minikube
 ```
-# install k9s to manage your Kubernetes cluster
+# Install k9s to manage your Kubernetes cluster
 https://github.com/derailed/k9s
 
 
@@ -101,8 +101,9 @@ gfsh > query --query='select count(*) from /telemetryRegion'
 
 #### Deploying file to file-source
 copy file into file-source
+
 ```bash
-kubectl cp geode/data/telemetry.txt {{geode fiel source pod name}}:/tmp/foo/1.txt
+kubectl cp geode/data/1mil_telemetry.txt {{geode file source pod name}}:/tmp/foo/1.txt
 ```
 
 You can view the data going through the processor and sink by looking at the logs
