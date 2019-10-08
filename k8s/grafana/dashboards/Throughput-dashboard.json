@@ -82,7 +82,7 @@
         {
           "expr": "sum(Geode_Speed_throughput_seconds_count)",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "intervalFactor": 1,
           "refId": "A"
         }
@@ -198,7 +198,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
