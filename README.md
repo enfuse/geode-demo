@@ -124,7 +124,7 @@ The file source app is a spring cloud stream app that:
 
 We will copy a file that contains 1 million sample telemetry records into the file source app. The file source app will begin streaming these records into a Kafka topic, which will then be consumed by our geode processor application, enriched with data stored in geode, and then published to another kafka topic. You should begin seeing total count and throughput in grafana as the data streams through the pipeline. 
 
-#####Copy telemetry data into the file source app
+##### Copy telemetry data into the file source app
 
 ```bash
 $ kubectl cp geode/data/1mil_telemetry.txt {file-source-pod-name}:/tmp/foo/1.txt
